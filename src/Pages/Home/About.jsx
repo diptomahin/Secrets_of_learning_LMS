@@ -45,7 +45,7 @@ const About = () => {
                 <figure className="w-1/2 mx-auto">
                     <img
                         className=""
-                        src="https://i.ibb.co/rGvvwq9/Untitled-design-3.png"
+                        src="https://i.ibb.co/rGvvwq9/Untitled-design-3.png "
                         alt="About" />
                 </figure>
             </div>

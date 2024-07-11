@@ -1,0 +1,45 @@
+[
+    [
+        {
+          "id": 1,
+          "title": "Content Creation Courses",
+          "description": "Dive into the world of content creation with our comprehensive courses. Learn how to craft compelling stories, engage your audience, and build a personal brand that stands out in a crowded digital space.",
+          "thumbnail": "https://example.com/thumbnails/content_creation.jpg",
+          "offer": "20% off for a limited time",
+          "discount":"20%",
+          "status": "Available"
+        },
+        {
+          "id": 2,
+          "title": "Motion Graphics Training",
+          "description": "Discover the magic of motion graphics. Our courses cover everything from the basics of animation to advanced techniques in After Effects and other industry-standard software. Bring your ideas to life with stunning visuals that captivate and inform.",
+          "thumbnail": "https://example.com/thumbnails/motion_graphics.jpg",
+          "offer": "15% off for new members",
+          "discount":"15%",
+          "status": "Available"
+        },
+        {
+          "id": 3,
+          "title": "Video Editing Mastery",
+          "description": "Master the art of video editing with our expert-led courses. Whether you're a beginner looking to learn the fundamentals or an experienced editor seeking to hone your skills, we provide the tools and techniques to create professional-grade videos.",
+          "thumbnail": "https://example.com/thumbnails/video_editing.jpg",
+          "offer": "15% off for new members",
+          "discount":"15%",
+          "status": "Available"
+        },
+        {
+          "id": 4,
+          "title": "Advanced Cinematography",
+          "description": "Explore the techniques and principles of advanced cinematography. Learn about lighting, composition, camera movements, and how to create visually stunning scenes that tell a story. Perfect for filmmakers looking to enhance their craft.",
+          "thumbnail": "https://example.com/thumbnails/cinematography.jpg",
+          "offer": "Early bird discount 10%",
+          "status": "10%"
+        }
+      ]
+      
+      
+      
+      
+      
+      
+  ]

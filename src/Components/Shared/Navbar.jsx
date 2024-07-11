@@ -70,8 +70,9 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end flex  gap-2">
-        <Link> <button className="btn text-lg  font-semibold">Courses</button> </Link>
-        <Link> <button className="btn text-lg  font-semibold">Login </button> </Link>
+        <Link to={'/courses'}> 
+        <button className="btn text-lg  font-semibold hover:bg-gradient-to-t from-second to-main hover:text-white">Courses</button> </Link>
+        <Link to={'/login'}> <button className="btn text-lg  font-semibold hover:bg-gradient-to-t from-second to-main hover:text-white">Login </button> </Link>
       </div>
     </div>
   );
