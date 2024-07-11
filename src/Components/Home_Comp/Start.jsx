@@ -33,13 +33,12 @@ const Start = () => {
             </p>
             <div className="card w-11/12 mx-auto">
                 <h2 className="text-center font-semibold text-2xl">What We Offer</h2>
-                <div className="card-body grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="card-body grid grid-cols-1  gap-3">
                    {
                     choice.map(cho =>  
                     <div key={cho.title} className="card bg-prime text-white hover:bg-white hover:text-prime">
                         <div className="card-body">
                             <h2 className="card-title">{cho.title}</h2>
-                            <p>{cho.description.slice(0,70)}......<Link to={'/courses'}><span className="text-lg hover:underline hover:underline-offset-1">Read more</span></Link></p>
                         </div>
                     </div>)
                    }
