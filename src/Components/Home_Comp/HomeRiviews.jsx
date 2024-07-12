@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -52,7 +52,7 @@ const HomeRiviews = () => {
 
 
     return (
-        <div className='w-8/12 mx-auto my-10'>
+        <div className='w-8/12 mx-auto mt-20'>
             <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
                 {
                     reviews.map(review =>
