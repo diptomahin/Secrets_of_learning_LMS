@@ -13,15 +13,12 @@ const HomeCourses = () => {
         <div className="my-10">
             <h1 className="w-11/12 mx-auto text-center text-2xl font-bold py-3 hover:bg-prime hover:text-white  border-2 border-prime">Explore Our Courses</h1>
             <div className="hero  min-h-screen my-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-11/12 mx-auto">
+                <div className="grid grid-cols-1 mid:grid-cols-2 lg:grid-cols-4 gap-10 w-11/12 mx-auto">
                     {
                         courses.map(course =>
-                            <div key={course.id} className="card-side rounded-lg bg-base-100 shadow-xl hover:bg-prime hover:text-white">
+                            <div key={course.id} className="card rounded-lg bg-base-100 shadow-xl hover:bg-prime hover:text-white">
                                 <figure>
-                                    <img
-                                        className="rounded-lg"
-                                        src={course.thumbnail}
-                                        alt="Album" />
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/KGkU7wApgBU?si=pQLOsVR-4guktdQz" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                                 </figure>
                                 <div className="card-body my-3">
                                     <h2 className="card-title">{course.title}
