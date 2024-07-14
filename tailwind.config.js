@@ -7,10 +7,10 @@ export default {
   ],
   theme: {
     colors: {
-      'prime':'#127957',
-      'main': '#11998e',
-      'second': '#38ef7d',
-      'white' : 'white'
+      'prime':'#f02d00',
+      'main': '#161616',
+      'white' : 'white',
+      'black' : 'black'
     },
     extend: {},
   },

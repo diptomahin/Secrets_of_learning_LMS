@@ -8,10 +8,6 @@ const Home = () => {
     return (
         <div>
             <Banner></Banner>
-            <Start></Start>
-            <Choice></Choice>
-            <HomeCourses></HomeCourses>
-            <HomeRiviews></HomeRiviews>
         </div>
     );
 };
