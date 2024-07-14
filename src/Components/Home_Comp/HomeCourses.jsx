@@ -8,7 +8,7 @@ const HomeCourses = () => {
             .then(data => setCourses(data));
     }, []);
 
-    console.log(courses)
+
     return (
         <div className="my-10">
             <h1 className="w-11/12 mx-auto text-center text-2xl font-bold py-3 hover:bg-prime hover:text-white  border-2 border-prime">Explore Our Courses</h1>
@@ -18,7 +18,7 @@ const HomeCourses = () => {
                         courses.map(course =>
                             <div key={course.id} className="card rounded-lg bg-base-100 shadow-xl hover:bg-prime hover:text-white">
                                 <figure>
-                                <iframe width="560" height="315" src="https://www.youtube.com/embed/KGkU7wApgBU?si=pQLOsVR-4guktdQz" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                                
                                 </figure>
                                 <div className="card-body my-3">
                                     <h2 className="card-title">{course.title}
