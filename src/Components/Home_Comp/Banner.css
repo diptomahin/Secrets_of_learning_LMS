@@ -1,0 +1,26 @@
+@keyframes marquee-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(-100%); }
+}
+
+@keyframes marquee-down {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(100%); }
+}
+
+.marquee-up {
+    display: flex;
+    flex-direction: column;
+    animation: marquee-up 5s linear infinite;
+}
+
+.marquee-down {
+    display: flex;
+    flex-direction: column;
+    animation: marquee-down 5s linear infinite;
+}
+
+.marquee-container{
+    height: 100%;
+    overflow: hidden;
+}

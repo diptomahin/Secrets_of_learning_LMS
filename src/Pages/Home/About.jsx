@@ -20,7 +20,7 @@ const About = () => {
     
       
     return (
-        <div className="bg-base-100  py-10">
+        <div className="bg-base-100  py-20">
             {/* section-1 */}
             <div className="card lg:card-side  w-11/12 mx-auto">
                 <figure className="w-1/2 mx-auto">

@@ -4,7 +4,7 @@ const Navbar = () => {
 
   const navLinks =
     <>
-      <ul className="menu menu-vertical  lg:menu-horizontal px-1 ">
+      <ul className="menu menu-vertical  lg:menu-horizontal px-1  ">
         <ul className="menu menu-horizontal px-1">
           <li><NavLink className=" font-semibold text-sm lg:text-lg" style={({ isActive }) => {
             return {
@@ -54,7 +54,7 @@ const Navbar = () => {
       </ul>
     </>
   return (
-    <div className="navbar px-5 shadow-lg bg-main h-[60px] fixed">
+    <div className="navbar px-5 shadow-lg bg-main h-[60px] fixed z-10">
       <div className="navbar-start">
         <Link to={'/'}><img className="w-[60px]" src={'/logo.png'} /></Link>
       </div>
