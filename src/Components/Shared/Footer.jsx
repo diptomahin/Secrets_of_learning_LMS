@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="footer bg-prime text-neutral-content p-10 mt-10">
+    <footer className="footer bg-main text-neutral-content p-10 mt-10">
       <aside>
         <img className="w-[80px]" src="/logo.png" alt="" />
         <p>

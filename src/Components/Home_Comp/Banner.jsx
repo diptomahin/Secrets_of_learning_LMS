@@ -1,34 +1,21 @@
 
 const Banner = () => {
-    const images = [
-        'https://i.ibb.co/bbHMfVs/Secrets-1.png',
-        'https://i.ibb.co/b1M10C7/Nazmul-Amin-Ihsan-1.png',
-        'https://i.ibb.co/XtCd4Ws/Nazmul-Amin-Ihsan-2.png',
-        'https://i.ibb.co/BwBP9Qv/Nazmul-Amin-Ihsan.png',
-    ]
     return (
-        <div className=" mx-auto  " >
-            <div className="carousel   ">
-                <div id="item1" className="carousel-item w-full">
-                    <img src={images[0]} className="h-4/5 w-full mx-auto" />
-                </div>
-                <div id="item2" className="carousel-item w-full">
-                    <img src={images[1]}  className="h-4/5 w-full mx-auto"/>
-                </div>
-                <div id="item3" className="carousel-item w-full">
-                    <img src={images[2]} className="h-4/5 w-full mx-auto" />
-                </div>
-                <div id="item4" className="carousel-item w-full">
-                    <img src={images[3]} className="h-4/5 w-full mx-auto" />
-                </div>
-            </div>
-            <div className="flex justify-center mx-auto gap-2 md:mt-[-80px] lg:mt-[-120px]">
-                <a href="#item1" className="btn btn-xs"> <img src={images[0]} className="w-20" /></a>
-                <a href="#item2" className="btn btn-xs"> <img src={images[1]} className="w-20" /></a>
-                <a href="#item3" className="btn btn-xs"><img src={images[2]} className="w-20" /></a>
-                <a href="#item4" className="btn btn-xs"><img src={images[3]} className="w-20" /></a>
-            </div>
+        <div className="hero bg-main text-white min-h-screen">
+        <div className="hero-content flex-col lg:flex-row-reverse">
+          <img
+            src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
+            className="max-w-sm rounded-lg shadow-2xl" />
+          <div>
+            <h1 className="text-5xl font-bold">Box Office News!</h1>
+            <p className="py-6">
+              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
+              quasi. In deleniti eaque aut repudiandae et a id nisi.
+            </p>
+            <button className="btn btn-primary">Get Started</button>
+          </div>
         </div>
+      </div>
     );
 };
 
