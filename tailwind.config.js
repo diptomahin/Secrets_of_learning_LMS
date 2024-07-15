@@ -10,7 +10,8 @@ export default {
       'prime':'#f02d00',
       'main': '#161616',
       'white' : 'white',
-      'black' : 'black'
+      'black' : 'black',
+      'red' : 'red'
     },
     extend: {},
   },

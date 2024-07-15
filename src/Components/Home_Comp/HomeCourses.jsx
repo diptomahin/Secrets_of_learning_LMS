@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FaShoppingCart } from "react-icons/fa";
 
 const HomeCourses = () => {
     const [courses, setCourses] = useState([])
@@ -8,6 +9,18 @@ const HomeCourses = () => {
             .then(data => setCourses(data));
     }, []);
 
+    function discountCounter (price, disc){
+      const discount= parseFloat(disc)/100;
+
+      const takaSaved = price*discount;
+
+      const takaNow = price-takaSaved;
+
+      return takaNow;
+
+   
+
+    }
 
     return (
         <div className="my-10">
@@ -16,16 +29,17 @@ const HomeCourses = () => {
                 <div className="grid grid-cols-1 mid:grid-cols-2 lg:grid-cols-4 gap-10 w-11/12 mx-auto">
                     {
                         courses.map(course =>
-                            <div key={course.id} className="card  bg-base-100 shadow-xl ">
-                            <iframe width="full" height="315" src="https://www.youtube.com/embed/SlYcqjhoGzM?si=FTaWxa7xKnr_5JyJ" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" ></iframe>
+                            <div key={course.id} className="card rounded-lg  bg-base-100 shadow-xl ">
+                            <div>
+                            <iframe className="rounded-lg w-full"  height="315" src="https://www.youtube.com/embed/SlYcqjhoGzM?si=FTaWxa7xKnr_5JyJ" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" ></iframe>
+                            </div>
                                 <div className="card-body my-3">
-                                    <h2 className="card-title">{course.title}
-                                        <div className="badge badge-secondary">NEW</div>
-                                    </h2>
-                                    <p className="text-lg">{course.description}</p>
-                                    <div className="card-actions justify-end my-3">
-                                        <button className="btn border-2 border-prime text-lg  font-semibold hover:bg-gradient-to-t from-second to-main hover:text-white">Details</button>
-                                        <button className="btn border-2 border-prime text-lg  font-semibold hover:bg-gradient-to-t from-second to-main hover:text-white">Enroll</button>
+                                    <h2 className="text-main hover:text-prime text-xl font-semibold">{course.title}</h2>
+                                    <h2 className="text-main text-lg font-semibold">{course.trainer}</h2>
+                                    <p className="text-lg">{course.description.slice(0,70)}</p>
+                                    <div className="card-actions w-full  my-3 text-center">
+                                        <p className="mb-2 text-xl text-prime font-semibold">{course.discount} Disc <span style={{"text-decoration": "line-through",}} className="">{course.price} Tk</span></p>
+                                        <button className="text-center rounded-lg flex justify-center bg-main text-white p-2 gap-2 w-full  items-center font-semibold text-xl"><FaShoppingCart className="font-bold text-2xl"/>Buy <span>{discountCounter(course.price, course.discount)} Tk</span></button>
                                     </div>
                                 </div>
                             </div>
