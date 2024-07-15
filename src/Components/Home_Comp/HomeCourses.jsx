@@ -16,10 +16,8 @@ const HomeCourses = () => {
                 <div className="grid grid-cols-1 mid:grid-cols-2 lg:grid-cols-4 gap-10 w-11/12 mx-auto">
                     {
                         courses.map(course =>
-                            <div key={course.id} className="card rounded-lg bg-base-100 shadow-xl hover:bg-prime hover:text-white">
-                                <figure>
-                                
-                                </figure>
+                            <div key={course.id} className="card  bg-base-100 shadow-xl ">
+                            <iframe width="full" height="315" src="https://www.youtube.com/embed/SlYcqjhoGzM?si=FTaWxa7xKnr_5JyJ" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" ></iframe>
                                 <div className="card-body my-3">
                                     <h2 className="card-title">{course.title}
                                         <div className="badge badge-secondary">NEW</div>
