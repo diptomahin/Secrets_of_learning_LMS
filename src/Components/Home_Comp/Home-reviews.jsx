@@ -52,7 +52,7 @@ const HomeRiviews = () => {
 
 
     return (
-        <div className='w-8/12 mx-auto my-20'>
+        <div className='w-8/12 mx-auto'>
             <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
                 {
                     reviews.map(review =>

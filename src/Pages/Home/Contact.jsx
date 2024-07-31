@@ -37,7 +37,7 @@ const Contact = () => {
                             <textarea placeholder="massage" className="input input-bordered h-32" required></textarea>
                         </div>
                         <div className="form-control mt-6">
-                            <button className="btn text-lg bg-gradient-to-t from-second to-main  text-white font-semibold">Submit</button>
+                            <button className="btn text-lg bg-prime text-white font-semibold hover:bg-white hover:text-prime">Submit</button>
                         </div>
                     </form>
                 </div>
