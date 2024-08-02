@@ -44,7 +44,7 @@ const HomeCourses = () => {
                                     <Link to={`/courses/${course.id}`}>
                                     <h2 className="text-main hover:text-prime text-lg font-bold">{course.title}</h2></Link>
                                     <h2 className="text-main text-lg font-semibold">{course.trainer}</h2>
-                                    <p className="">{course.description.slice(0,70)}</p>
+                                    <p className="">{course.short_description}</p>
                                     </div>
                                     <div className="card-actions w-full   my-3 text-center">
                                         <p className="mb-1 text-lg mx-auto text-prime font-semibold">
