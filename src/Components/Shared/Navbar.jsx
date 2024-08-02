@@ -58,8 +58,8 @@ const Navbar = () => {
       <div className="navbar-start">
         <Link to={'/'}><img className="w-[60px]" src={'/logo.png'} /></Link>
       </div>
-      <div className="navbar-center sm:hidden md:hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+      <div className="navbar-center flex ">
+        <ul className="menu menu-horizontal ">
           {
             navLinks
           }

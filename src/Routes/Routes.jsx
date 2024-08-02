@@ -8,6 +8,7 @@ import Contact from './../Pages/Home/Contact';
 import Login from './../Pages/Login-Reg/Login';
 import Registration from './../Pages/Login-Reg/Registration';
 import AllCourses from './../Pages/Courses/AllCourses';
+import CourseDetails from "../Pages/Courses/CourseDetails";
 
 const router = createBrowserRouter([
     {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
         {
             path: "/courses",
             element: <AllCourses></AllCourses>,
+        },
+        {
+            path: "/courses/:id",
+            element:<CourseDetails></CourseDetails>,
         },
         {
             path: "/dashboard",

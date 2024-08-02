@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const HomeCourses = () => {
     const [courses, setCourses] = useState([])
@@ -40,14 +41,17 @@ const HomeCourses = () => {
                             </div>
                                 <div className="flex flex-col flex-grow mt-3 justify-between">
                                     <div className="mx-1 flex flex-col gap-2">
-                                    <h2 className="text-main hover:text-prime text-lg font-bold">{course.title}</h2>
+                                    <Link to={`/courses/${course.id}`}>
+                                    <h2 className="text-main hover:text-prime text-lg font-bold">{course.title}</h2></Link>
                                     <h2 className="text-main text-lg font-semibold">{course.trainer}</h2>
                                     <p className="">{course.description.slice(0,70)}</p>
                                     </div>
                                     <div className="card-actions w-full   my-3 text-center">
                                         <p className="mb-1 text-lg mx-auto text-prime font-semibold">
                                             {course.discount} Disc <span style={{"text-decoration": "line-through",}} className="">{course.price} Tk</span></p>
+                                        <Link className="w-full" to={`courses/${course.id}`}>
                                         <button className="text-center rounded-lg flex justify-center bg-main text-white p-2 gap-2 w-11/12 mx-auto  items-center font-semibold text-xl"><FaShoppingCart className="font-bold text-2xl"/>Buy <span>{discountCounter(course.price, course.discount)} Tk</span></button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
