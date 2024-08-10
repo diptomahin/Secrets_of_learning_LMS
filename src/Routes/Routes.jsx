@@ -9,6 +9,11 @@ import Login from './../Pages/Login-Reg/Login';
 import Registration from './../Pages/Login-Reg/Registration';
 import AllCourses from './../Pages/Courses/AllCourses';
 import CourseDetails from "../Pages/Courses/CourseDetails";
+import PrivetRoute from "./PrivetRoute";
+import Student from "../Layout/Student";
+import StudentDashboard from "../Pages/Student-Dashboard/StudentDashboard";
+import MyCourses from "../Pages/Student-Dashboard/MyCourses";
+import Profile from './../Pages/Student-Dashboard/Profile';
 
 const router = createBrowserRouter([
     {
@@ -43,12 +48,27 @@ const router = createBrowserRouter([
             path: "/courses/:id",
             element:<CourseDetails></CourseDetails>,
         },
-        {
-            path: "/dashboard",
-            element: <Home></Home>,
-        },
       ]
     },
+    {
+        path: '/student-dashboard',
+        element: <Student></Student>,
+        children: [
+          {
+            path: '/student-dashboard/st-dashboard',
+            element: <PrivetRoute><StudentDashboard /></PrivetRoute>
+          },
+          {
+            path: '/student-dashboard/my-courses',
+            element: <PrivetRoute><MyCourses /></PrivetRoute>
+          },
+          {
+            path: '/student-dashboard/profile',
+            element: <PrivetRoute><Profile /></PrivetRoute>
+          },
+    
+        ]
+      }
   ]);
 
 

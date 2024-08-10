@@ -90,8 +90,10 @@ const Navbar = () => {
               <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-prime text-white rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                <li><a>My Courses</a></li>
-                <li><a>Profile</a></li>
+                <li><Link to={`/student-dashboard/st-dashboard`}>Dashboard</Link></li>
+                <li><Link to={`/student-dashboard/profile`}>Profile</Link></li>
+                <li><Link to={`/student-dashboard/my-courses`}>My Courses</Link></li>
+                <hr />
                 <li onClick={handleSignOut}><a>Logout</a></li>
               </ul>
             </div>
