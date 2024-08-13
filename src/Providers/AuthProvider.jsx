@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWith
 import { PropTypes } from 'prop-types';
 import { GoogleAuthProvider } from "firebase/auth";
 import app from '../firebase/firebase.config';
+import toast from "react-hot-toast";
 
 export const AuthContext = createContext(null);
 
@@ -20,12 +21,14 @@ const AuthProvider = ({children}) => {
 
     const signIn = (email, password) => {
         setLoading(true);
+        toast.success('SignIn Successful')
         return signInWithEmailAndPassword(auth, email, password);
     }
     
     const handleGoogleSignIn = () =>{
         signInWithPopup(auth, provider)
         .then(result => {
+            toast.success('Login Successful')
             const user = result.user;
             console.log(user)
         })
@@ -36,6 +39,7 @@ const AuthProvider = ({children}) => {
 
     const logOut = () => {
         setLoading(true);
+        toast.success('Logout Successful')
         return signOut(auth);
     }
 

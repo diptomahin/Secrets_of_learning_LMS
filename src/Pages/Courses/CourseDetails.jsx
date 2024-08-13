@@ -7,15 +7,15 @@ import { GoFileSubmodule } from "react-icons/go";
 import { FaShoppingCart } from "react-icons/fa";
 const CourseDetails = () => {
 
-    const { id } = useParams();
+    const { _id } = useParams();
 
 
     const [course, setCourse] = useState();
     useEffect(() => {
-        fetch('/courses.json')
+        fetch('http://localhost:5000/all-courses')
             .then(res => res.json())
-            .then(data => setCourse(data.find(course => course.id == id)));
-    }, [id]);
+            .then(data => setCourse(data.find(course => course.id == _id)));
+    }, [_id]);
 
 
 
