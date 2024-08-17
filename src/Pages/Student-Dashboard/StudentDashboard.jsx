@@ -3,10 +3,11 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import { GiClassicalKnowledge } from "react-icons/gi";
 import { MdOutlineClass } from "react-icons/md";
 import { Link } from "react-router-dom";
+import UseLoggedUser from "../../Hooks/UseLoggedUser";
 const StudentDashboard = () => {
 
     const { user } = useContext(AuthContext);
-
+    const {userData, userDataLoading, refetchUserData} = UseLoggedUser();
     const [courses, setCourses] = useState([]);
     useEffect(() => {
         fetch('http://localhost:5000/all-courses')
@@ -21,11 +22,11 @@ const StudentDashboard = () => {
                     <img
                         className="rounded-full w-full"
                         alt="User Image"
-                        src={user?.photoURL} />
+                        src={userData?.photoURL} />
                 </div>
                 <div>
-                    <h1 className="text-2xl font-bold text-prime">{user?.displayName}</h1>
-                    <h1 className="text-lg font-semibold text-main">{user?.email}</h1>
+                    <h1 className="text-2xl font-bold text-prime">{userData?.displayName}</h1>
+                    <h1 className="text-lg font-semibold text-main">{userData?.email}</h1>
                 </div>
             </div>
             <hr style={{ border: 'none', height: '3px', backgroundColor: 'black' }} />
@@ -33,7 +34,7 @@ const StudentDashboard = () => {
                 <div className="card border-main  border-2 bg-base-100 w-96 shadow-xl h-56">
                     <div className="card-body flex-col items-center justify-around">
                         <GiClassicalKnowledge  className="text-5xl text-prime"/>
-                        <h2 className="text-2xl font-bold">0</h2>
+                        <h2 className="text-2xl font-bold">{userData?.Enrolled?.length}</h2>
                         <h2 className="card-title hover:text-prime"><Link to={`/student-dashboard/my-courses`}>Enrolled Courses</Link></h2>
                     </div>
                 </div>

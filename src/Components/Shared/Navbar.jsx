@@ -1,16 +1,19 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from './../../Providers/AuthProvider';
+import UseLoggedUser from "../../Hooks/UseLoggedUser";
 
 const Navbar = () => {
 
   const { user, logOut } = useContext(AuthContext);
-
+  const {userData, userDataLoading, refetchUserData} = UseLoggedUser();
+  console.log(userData)
   const handleSignOut = () => {
     logOut()
       .then()
       .catch()
   }
+
 
   const navLinks =
     <>
@@ -84,7 +87,7 @@ const Navbar = () => {
                 <div className="w-10 rounded-full">
                   <img
                     alt="User Image"
-                    src={user?.photoURL}/>
+                    src={userData?.photoURL}/>
                 </div>
               </div>
               <ul
