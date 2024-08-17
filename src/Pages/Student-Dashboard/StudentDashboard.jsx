@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { GiClassicalKnowledge } from "react-icons/gi";
 import { MdOutlineClass } from "react-icons/md";
@@ -6,6 +6,13 @@ import { Link } from "react-router-dom";
 const StudentDashboard = () => {
 
     const { user } = useContext(AuthContext);
+
+    const [courses, setCourses] = useState([]);
+    useEffect(() => {
+        fetch('http://localhost:5000/all-courses')
+            .then(res => res.json())
+            .then(data => setCourses(data));
+    }, []);
 
     return (
         <div className="mt-20">
@@ -33,7 +40,7 @@ const StudentDashboard = () => {
                 <div className="card border-main  border-2 bg-base-100 w-96 shadow-xl h-56">
                     <div className="card-body flex-col items-center justify-around">
                         < MdOutlineClass  className="text-5xl text-prime"/>
-                        <h2 className="text-2xl font-bold">4</h2>
+                        <h2 className="text-2xl font-bold">{courses.length}</h2>
                         <h2 className="card-title hover:text-prime"><Link to={`/courses`}>Available Courses</Link></h2>
                     </div>
                 </div>

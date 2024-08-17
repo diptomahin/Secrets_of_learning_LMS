@@ -21,20 +21,12 @@ const AuthProvider = ({children}) => {
 
     const signIn = (email, password) => {
         setLoading(true);
-        toast.success('SignIn Successful')
         return signInWithEmailAndPassword(auth, email, password);
     }
     
     const handleGoogleSignIn = () =>{
-        signInWithPopup(auth, provider)
-        .then(result => {
-            toast.success('Login Successful')
-            const user = result.user;
-            console.log(user)
-        })
-        .catch(error => {
-            console.log(error.massage)
-        })
+        setLoading(true);
+        return signInWithPopup(auth, provider)
     }
 
     const logOut = () => {

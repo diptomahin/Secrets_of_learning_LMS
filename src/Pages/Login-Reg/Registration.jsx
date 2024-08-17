@@ -1,17 +1,22 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
-
+import toast from "react-hot-toast";
+import useAxios from "../../Hooks/UseAxios";
 const Registration = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  const { createUser, handleGoogleSignIn } = useContext(AuthContext)
+  const { createUser, handleGoogleSignIn } = useContext(AuthContext);
+ 
+  const axiosPublic = useAxios();
+
+  const navigate = useNavigate();
 
   const handleRegister = e => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
-    const name = form.get("name")
+    const displayName = form.get("name")
     const email = form.get("email")
     const password = form.get("password")
     setErrorMessage('')
@@ -20,25 +25,88 @@ const Registration = () => {
       setErrorMessage('Your Password Should Contain at least 6 characters')
       return;
     }
-    else if (!/[A-Z]/.test(password)) {
-      setErrorMessage('Your Password Should Contain at least 1 one uppercase letter')
-      return;
-    }
+    // else if (!/[A-Z]/.test(password)) {
+    //   setErrorMessage('Your Password Should Contain at least 1 one uppercase letter')
+    //   return;
+    // }
 
-    else if (!/[!@#$%^&*]/.test(password)) {
-      setErrorMessage('Your Password Should Contain at least 1 one special character')
-      return;
-    }
+    // else if (!/[!@#$%^&*]/.test(password)) {
+    //   setErrorMessage('Your Password Should Contain at least 1 one special character')
+    //   return;
+    // }
 
     createUser(email, password)
-      .then(result => {
-        console.log(result.user)
+      .then((res) => {
+        const loggedUser = res.user;
+        const userInfo = {
+          userID: loggedUser.uid,
+          email: loggedUser.email,
+          displayName: displayName,
+          role: "student",
+          photoURL: loggedUser.photoURL || "https://i.ibb.co/QDfSLpn/7309681.jpg",
+          phone: "",
+          address: "",
+          username: loggedUser.email,
+          password: password,
+          Enrolled : [],
+        };
+        // const userInfo = {email,displayName, role, photoURL ,phone, address, username,  password}
+        axiosPublic.post('/all-users', userInfo)
+          .then(res => {
+            if (res.data.insertedId) {
+              console.log('user added to the database')
+              toast.success('SignIn Successful')
+              navigate('/');
+            }
+          })
+
       })
       .catch((error) => {
-        console.log(error.message);
+        toast.error(error.message.slice(10));
         setErrorMessage(error.message);
       })
   }
+
+  const handleSocialLogin = () => {
+    handleGoogleSignIn()
+       .then((res) => {
+        const loggedUser = res.user;
+
+        const userInfo = {
+          userID: loggedUser.uid,
+          email: loggedUser.email,
+          displayName: loggedUser.displayName,
+          role: "student",
+          photoURL: loggedUser.photoURL || "",
+          phone: "",
+          address: "",
+          username: loggedUser.email,
+          password: "Logged in with google",
+          Enrolled : [],
+        };
+        console.log(userInfo)
+        axiosPublic.post('http://localhost:5000/all-users', userInfo)
+        .then(res => {
+          if (res.data.insertedId) {
+            console.log('user added to the database')
+            toast.success('Login Successful')
+            navigate('/');
+          }
+        })
+        .catch((error)=>{
+            console.log(error.message)
+        })
+
+    })
+    .catch((error) => {
+        if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+         toast("This email is already in use");
+          return;
+        }
+        toast(error.message);
+      });
+     
+  };
 
 
   return (
@@ -72,7 +140,7 @@ const Registration = () => {
             </div>
             <div className="form-control mt-6">
               <button className="btn mb-2 bg-prime text-white">Register</button>
-              <button onClick={handleGoogleSignIn} className="btn bg-prime text-white">Register With Google</button>
+              <button  onClick={() => handleSocialLogin(handleGoogleSignIn)} className="btn bg-prime text-white">Register With Google</button>
               {
                 errorMessage ?
                   <div className="my-3 ">

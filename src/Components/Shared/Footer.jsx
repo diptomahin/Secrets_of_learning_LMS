@@ -5,11 +5,9 @@ const Footer = () => {
   return (
     <footer className="footer bg-main text-neutral-content p-10 mt-10">
       <aside>
-        <img className="w-[80px]" src="/logo.png" alt="" />
+        <img className="w-[150px]" src="https://i.ibb.co/FKZd3SG/Learn-Fuji-Yama-Logo-1.png" alt="" />
         <p>
-          <span className="font-semibold text-xl text-white">Secrets Of Learning</span>
-          <br />
-          <span className="font-semibold text-white">join us in the path of learning</span>
+          <span className=" text-white">join us in the path of learning</span>
         </p>
       </aside>
       <nav className="">

@@ -1,17 +1,17 @@
 import { useContext, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
-
+import toast from "react-hot-toast";
+import useAxios from "../../Hooks/UseAxios";
 
 
 
 const Login = () => {
 
     const { signIn, handleGoogleSignIn } = useContext(AuthContext);
-    const location = useLocation();
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
-
+    const axiosPublic = useAxios();
     const handleLogin = e => {
         e.preventDefault();
         console.log(e.currentTarget);
@@ -25,14 +25,55 @@ const Login = () => {
         signIn(email, password)
             .then(result => {
                 console.log(result.user)
-                navigate(location?.state ? location.state : '/');
+                navigate('/');
             })
             .catch(error => {
                 console.log(error.message);
-                setErrorMessage(error.message);
+                toast(error.message);
             })
 
     }
+
+    const handleSocialLogin = () => {
+        handleGoogleSignIn()
+           .then((res) => {
+            const loggedUser = res.user;
+    
+            const userInfo = {
+              userID: loggedUser.uid,
+              email: loggedUser.email,
+              displayName: loggedUser.displayName,
+              role: "student",
+              photoURL: loggedUser.photoURL || "",
+              phone: "",
+              address: "",
+              username: loggedUser.email,
+              password: "Logged in with google",
+              Enrolled : [],
+            };
+            // console.log(userInfo)
+            axiosPublic.post('http://localhost:5000/all-users', userInfo)
+            .then(res => {
+              if (res.data.insertedId) {
+                console.log('user added to the database')
+                toast.success('Login Successful')
+                navigate('/');
+              }
+            })
+            .catch((error)=>{
+                console.log(error.message)
+            })
+    
+        })
+        .catch((error) => {
+            if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+             toast("This email is already in use");
+              return;
+            }
+            toast(error.message);
+          });
+         
+      };
 
     return (
         <div className="hero min-h-screen  bg-main">
@@ -59,7 +100,7 @@ const Login = () => {
                         </div>
                         <div className="form-control mt-6">
                             <button className="btn mb-2 bg-prime text-white" >Login</button>
-                            <button onClick={handleGoogleSignIn} className="btn bg-prime text-white">Login With Google</button>
+                            <button onClick= {handleSocialLogin} className="btn bg-prime text-white">Login With Google</button>
                             {
                                 errorMessage ?
                                     <div className="my-3 ">

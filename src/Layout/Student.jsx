@@ -16,7 +16,7 @@ const Student = () => {
         <div>
             <div className="navbar px-5 shadow-lg bg-main h-[60px] fixed z-10">
                 <div className="mx-auto">
-                    <Link to={'/'}><img className="w-[60px]" src={'/logo.png'} /></Link>
+                    <Link to={'/'}><img className="w-[150px]" src={'https://i.ibb.co/FKZd3SG/Learn-Fuji-Yama-Logo-1.png'} /></Link>
                 </div>
             </div>
             <div className="flex">

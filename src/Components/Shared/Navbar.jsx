@@ -66,7 +66,7 @@ const Navbar = () => {
   return (
     <div className="navbar px-5 shadow-lg bg-main h-[60px] fixed z-10">
       <div className="navbar-start">
-        <Link to={'/'}><img className="w-[60px]" src={'/logo.png'} /></Link>
+        <Link to={'/'}><img className="w-[150px]" src={'https://i.ibb.co/FKZd3SG/Learn-Fuji-Yama-Logo-1.png'} /></Link>
       </div>
       <div className="navbar-center flex ">
         <ul className="menu menu-horizontal ">

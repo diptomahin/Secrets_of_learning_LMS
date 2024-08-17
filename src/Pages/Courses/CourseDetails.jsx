@@ -17,7 +17,7 @@ const CourseDetails = () => {
             .then(data => setCourse(data.find(course => course.id == _id)));
     }, [_id]);
 
-
+    
 
     function discountCounter(price, disc) {
         const discount = parseFloat(disc) / 100;
@@ -31,6 +31,8 @@ const CourseDetails = () => {
 
 
     }
+
+    
 
     if (course) {
         return (

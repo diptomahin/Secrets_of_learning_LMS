@@ -48,7 +48,7 @@ const HomeCourses = () => {
                                     </div>
                                     <div className="card-actions w-full   my-3 text-center">
                                         <p className="mb-1 text-lg mx-auto text-prime font-semibold">
-                                            {course.discount} Disc <span style={{"text-decoration": "line-through",}} className="">{course.price} Tk</span></p>
+                                            {course.discount} Disc <span style={{"textDecoration": "line-through",}} className="">{course.price} Tk</span></p>
                                         <Link className="w-full" to={`/courses/${course._id}`}>
                                         <button className="text-center rounded-lg flex justify-center bg-main text-white p-2 gap-2 w-11/12 mx-auto  items-center font-semibold text-xl"><FaShoppingCart className="font-bold text-2xl"/>Buy <span>{discountCounter(course.price, course.discount)} Tk</span></button>
                                         </Link>
