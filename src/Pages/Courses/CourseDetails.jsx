@@ -1,38 +1,81 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { PiStudentBold } from "react-icons/pi";
 import { AiOutlineLike } from "react-icons/ai";
 import { MdOutlineRateReview } from "react-icons/md";
 import { GoFileSubmodule } from "react-icons/go";
 import { FaShoppingCart } from "react-icons/fa";
+import { AuthContext } from "../../Providers/AuthProvider";
+import UseLoggedUser from "../../Hooks/UseLoggedUser";
+import useAxios from "../../Hooks/UseAxios";
+import toast from "react-hot-toast";
+
+
 const CourseDetails = () => {
 
-    const { _id } = useParams();
+    const { id } = useParams();
 
+    // console.log(id)
+
+    const { user } = useContext(AuthContext);
+
+    const navigate = useNavigate();
+
+    const axiosPublic = useAxios();
+
+    const { userData, userDataLoading, refetchUserData } = UseLoggedUser();
 
     const [course, setCourse] = useState();
+    const [price, setPrice] = useState();
+    const [discount, setDiscount] = useState();
+    const [takaNow, setTakaNow] = useState(0);
+
     useEffect(() => {
         fetch('http://localhost:5000/all-courses')
             .then(res => res.json())
-            .then(data => setCourse(data.find(course => course.id == _id)));
-    }, [_id]);
+            .then(data => {
+                setCourse(data.find(course => course._id == id))
+                setPrice(course.price)
+                setDiscount(course.discount)
+            });
+    }, [id,course]);
+     
 
-    
-
-    function discountCounter(price, disc) {
-        const discount = parseFloat(disc) / 100;
-
-        const takaSaved = price * discount;
-
-        const takaNow = price - takaSaved;
-
-        return takaNow;
+    useEffect(()=>{
+        const disc = parseFloat(discount) / 100
+        const takaSaved = price * disc;
+        setTakaNow(price - takaSaved);
+    },[discount, price])
 
 
+
+
+    const handleBuy = (course) => {
+
+        const discount = parseFloat(course.discount) / 100;
+
+        const takaSaved = course.price * discount;
+
+        const takaNow = course.price - takaSaved;
+
+        console.log(takaNow)
+
+        const courseId = course._id;
+
+        axiosPublic.put(`http://localhost:5000/all-users/${userData._id}/enrolled`, { courseId })
+            .then(res => {
+                if (res.data.result.acknowledged == true) {
+                    console.log('User enrolled in the course successfully');
+                    toast.success('Successfully Enrolled');
+                    navigate('/');
+                }
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
 
     }
 
-    
 
     if (course) {
         return (
@@ -56,11 +99,15 @@ const CourseDetails = () => {
                                     Enjoy this course and {course.students} others unlimitedly.
                                 </p>
                                 <hr />
-                                <h2 className="text-center text-2xl font-bold"> <span>{discountCounter(course.price, course.discount)} Tk</span></h2>
+                                <h2 className="text-center text-2xl font-bold"> <span>{takaNow} Tk</span></h2>
                                 <p className="mb-1 text-lg mx-auto text-prime font-semibold">
-                                    {course.discount} Disc <span style={{ "text-decoration": "line-through", }} className="">{course.price} Tk</span></p>
+                                    {course.discount} Disc <span style={{ "textDecoration": "line-through", }} className="">{course.price} Tk</span></p>
                                 <div className="card-actions justify-end">
-                                    <button className="btn text-center rounded-lg flex justify-center bg-white text-prime p-2 gap-2 w-11/12 mx-auto  items-center font-semibold text-xl"><FaShoppingCart className="font-bold text-2xl" />Buy</button>
+                                    {
+                                        user ?
+                                            <button onClick={() => handleBuy(course)} className="btn text-center rounded-lg flex justify-center bg-white text-prime p-2 gap-2 w-11/12 mx-auto  items-center font-semibold text-xl"><FaShoppingCart className="font-bold text-2xl" />Buy</button> :
+                                            <button className="btn text-center rounded-lg flex justify-center bg-white text-prime p-2 gap-2 w-11/12 mx-auto  items-center font-semibold text-xl"><FaShoppingCart className="font-bold text-2xl" />Buy</button>
+                                    }
                                 </div>
                             </div>
                         </div>

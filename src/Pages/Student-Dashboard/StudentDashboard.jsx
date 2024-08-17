@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../Providers/AuthProvider";
+import {  useEffect, useState } from "react";
 import { GiClassicalKnowledge } from "react-icons/gi";
 import { MdOutlineClass } from "react-icons/md";
 import { Link } from "react-router-dom";

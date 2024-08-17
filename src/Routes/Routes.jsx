@@ -14,6 +14,7 @@ import Student from "../Layout/Student";
 import StudentDashboard from "../Pages/Student-Dashboard/StudentDashboard";
 import MyCourses from "../Pages/Student-Dashboard/MyCourses";
 import Profile from './../Pages/Student-Dashboard/Profile';
+import UpdateProfile from "../Pages/Student-Dashboard/UpdateProfile";
 
 const router = createBrowserRouter([
     {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
           {
             path: '/student-dashboard/profile',
             element: <PrivetRoute><Profile /></PrivetRoute>
+          },
+          {
+            path: '/student-dashboard/update-profile/:id',
+            element: <PrivetRoute><UpdateProfile /></PrivetRoute>
           },
     
         ]
