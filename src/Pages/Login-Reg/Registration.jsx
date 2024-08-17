@@ -3,6 +3,7 @@ import { Link,  useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 import toast from "react-hot-toast";
 import useAxios from "../../Hooks/UseAxios";
+import UseUsers from "../../Hooks/UseUsers";
 const Registration = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -10,6 +11,8 @@ const Registration = () => {
   const { createUser, handleGoogleSignIn } = useContext(AuthContext);
  
   const axiosPublic = useAxios();
+
+  const {allUser, refetchAllUserData, AllUserDataIsLoading, AllUserDataIsPending} = UseUsers();
 
   const navigate = useNavigate();
 
@@ -25,6 +28,11 @@ const Registration = () => {
       setErrorMessage('Your Password Should Contain at least 6 characters')
       return;
     }
+
+    // else if (allUser.find(user=> user.email == email))
+    // {
+    //   setErrorMessage('Email Already Exist')
+    // }
     // else if (!/[A-Z]/.test(password)) {
     //   setErrorMessage('Your Password Should Contain at least 1 one uppercase letter')
     //   return;
@@ -69,44 +77,48 @@ const Registration = () => {
 
   const handleSocialLogin = () => {
     handleGoogleSignIn()
-       .then((res) => {
-        const loggedUser = res.user;
+        .then((res) => {
+            const loggedUser = res.user;
+            if(allUser.find(user=> user.email == loggedUser.email )){
+                toast.success('Login Successful');
+            }
+            else{
+                const userInfo = {
+                    userID: loggedUser.uid,
+                    email: loggedUser.email,
+                    displayName: loggedUser.displayName,
+                    role: "student",
+                    photoURL: loggedUser.photoURL || "",
+                    phone: "",
+                    address: "",
+                    username: loggedUser.email,
+                    password: "Logged in with google",
+                    Enrolled: [],
+                };
+                axiosPublic.post('http://localhost:5000/all-users', userInfo)
+                .then(res => {
+                    if (res.data.insertedId) {
+                        console.log('user added to the database')
+                        toast.success('Login Successful')
+                        navigate('/');
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                })
 
-        const userInfo = {
-          userID: loggedUser.uid,
-          email: loggedUser.email,
-          displayName: loggedUser.displayName,
-          role: "student",
-          photoURL: loggedUser.photoURL || "",
-          phone: "",
-          address: "",
-          username: loggedUser.email,
-          password: "Logged in with google",
-          Enrolled : [],
-        };
-        console.log(userInfo)
-        axiosPublic.post('http://localhost:5000/all-users', userInfo)
-        .then(res => {
-          if (res.data.insertedId) {
-            console.log('user added to the database')
-            toast.success('Login Successful')
-            navigate('/');
-          }
-        })
-        .catch((error)=>{
-            console.log(error.message)
-        })
+            }        
 
-    })
-    .catch((error) => {
-        if (error.message === "Firebase: Error (auth/email-already-in-use).") {
-         toast("This email is already in use");
-          return;
-        }
-        toast(error.message);
-      });
-     
-  };
+        })
+        .catch((error) => {
+            if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+                toast("This email is already in use");
+                return;
+            }
+            toast(error.message);
+        });
+
+};
 
 
   return (
@@ -138,17 +150,17 @@ const Registration = () => {
                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
               </label>
             </div>
-            <div className="form-control mt-6">
-              <button className="btn mb-2 bg-prime text-white">Register</button>
-              <button  onClick={() => handleSocialLogin(handleGoogleSignIn)} className="btn bg-prime text-white">Register With Google</button>
-              {
+            {
                 errorMessage ?
                   <div className="my-3 ">
-                    <p className="text-red-500 text-sm">{errorMessage}</p>
+                    <p className="text-red text-sm">{errorMessage}</p>
                   </div>
                   :
                   <div></div>
               }
+            <div className="form-control mt-6">
+              <button className="btn mb-2 bg-prime text-white">Register</button>
+              <button  onClick={() => handleSocialLogin(handleGoogleSignIn)} className="btn bg-prime text-white">Register With Google</button>
               <p className="mt-5 text-xs">Already have an account???<span className="text-prime font-semibold"><Link to='/login'>Login Now!</Link></span></p>
             </div>
           </form>

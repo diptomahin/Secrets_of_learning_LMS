@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
-import { Link,  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 import toast from "react-hot-toast";
 import useAxios from "../../Hooks/UseAxios";
+import UseUsers from "../../Hooks/UseUsers";
 
 
 
@@ -12,6 +13,8 @@ const Login = () => {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
     const axiosPublic = useAxios();
+    const {allUser, refetchAllUserData, AllUserDataIsLoading, AllUserDataIsPending} = UseUsers();
+    console.log(allUser)
     const handleLogin = e => {
         e.preventDefault();
         console.log(e.currentTarget);
@@ -20,8 +23,7 @@ const Login = () => {
         const password = form.get('password');
 
         setErrorMessage('');
-
-
+        
         signIn(email, password)
             .then(result => {
                 console.log(result.user)
@@ -36,44 +38,48 @@ const Login = () => {
 
     const handleSocialLogin = () => {
         handleGoogleSignIn()
-           .then((res) => {
-            const loggedUser = res.user;
-    
-            const userInfo = {
-              userID: loggedUser.uid,
-              email: loggedUser.email,
-              displayName: loggedUser.displayName,
-              role: "student",
-              photoURL: loggedUser.photoURL || "",
-              phone: "",
-              address: "",
-              username: loggedUser.email,
-              password: "Logged in with google",
-              Enrolled : [],
-            };
-            // console.log(userInfo)
-            axiosPublic.post('http://localhost:5000/all-users', userInfo)
-            .then(res => {
-              if (res.data.insertedId) {
-                console.log('user added to the database')
-                toast.success('Login Successful')
-                navigate('/');
-              }
+            .then((res) => {
+                const loggedUser = res.user;
+                if(allUser.find(user=> user.email == loggedUser.email )){
+                    toast.success('Login Successful');
+                }
+                else{
+                    const userInfo = {
+                        userID: loggedUser.uid,
+                        email: loggedUser.email,
+                        displayName: loggedUser.displayName,
+                        role: "student",
+                        photoURL: loggedUser.photoURL || "",
+                        phone: "",
+                        address: "",
+                        username: loggedUser.email,
+                        password: "Logged in with google",
+                        Enrolled: [],
+                    };
+                    axiosPublic.post('http://localhost:5000/all-users', userInfo)
+                    .then(res => {
+                        if (res.data.insertedId) {
+                            console.log('user added to the database')
+                            toast.success('Login Successful')
+                            navigate('/');
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error.message)
+                    })
+
+                }        
+
             })
-            .catch((error)=>{
-                console.log(error.message)
-            })
-    
-        })
-        .catch((error) => {
-            if (error.message === "Firebase: Error (auth/email-already-in-use).") {
-             toast("This email is already in use");
-              return;
-            }
-            toast(error.message);
-          });
-         
-      };
+            .catch((error) => {
+                if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+                    toast("This email is already in use");
+                    return;
+                }
+                toast(error.message);
+            });
+
+    };
 
     return (
         <div className="hero min-h-screen  bg-main">
@@ -82,7 +88,7 @@ const Login = () => {
                     <h1 className="text-5xl font-bold text-white"><span className="text-prime">Login</span> now!</h1>
                 </div>
                 <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                    <form  onSubmit={handleLogin} className="card-body">
+                    <form onSubmit={handleLogin} className="card-body">
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
@@ -98,17 +104,17 @@ const Login = () => {
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                             </label>
                         </div>
-                        <div className="form-control mt-6">
-                            <button className="btn mb-2 bg-prime text-white" >Login</button>
-                            <button onClick= {handleSocialLogin} className="btn bg-prime text-white">Login With Google</button>
-                            {
+                        {
                                 errorMessage ?
                                     <div className="my-3 ">
-                                        <p className="text-red-500 text-sm">{errorMessage}</p>
+                                        <p className="text-red text-sm">{errorMessage}</p>
                                     </div>
                                     :
                                     <div></div>
                             }
+                        <div className="form-control mt-6">
+                            <button className="btn mb-2 bg-prime text-white" >Login</button>
+                            <button onClick={handleSocialLogin} className="btn bg-prime text-white">Login With Google</button>
                             <p className="mt-5 text-xs">Do not Have an account???<span className="text-prime font-semibold"><Link to='/register'>Register Now!</Link></span></p>
                         </div>
                     </form>

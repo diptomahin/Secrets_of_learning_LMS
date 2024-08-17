@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import UseLoggedUser from "../../Hooks/UseLoggedUser";
 const StudentDashboard = () => {
 
-    const { user } = useContext(AuthContext);
     const {userData, userDataLoading, refetchUserData} = UseLoggedUser();
     const [courses, setCourses] = useState([]);
     useEffect(() => {
