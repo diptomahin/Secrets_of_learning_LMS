@@ -3,6 +3,7 @@ import UseLoggedUser from "../../Hooks/UseLoggedUser";
 import { toast } from "react-hot-toast";
 import useAxios from "../../Hooks/UseAxios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const UpdateProfile = () => {
     const axiosPublic = useAxios();
@@ -15,12 +16,46 @@ const UpdateProfile = () => {
         photoURL: userData?.photoURL || '',
     });
 
+      // Imgbb API Key
+    const imgbbAPIKey = "9b00e5928e6cb63a96541485f6f339eb";
+
+    useEffect(() => {
+        if (userData) {
+            setFormData({
+                displayName: userData.displayName || '',
+                phone: userData.phone || '',
+                address: userData.address || '',
+                photoURL: userData.photoURL || 'https://i.ibb.co.com/QDfSLpn/7309681.jpg',
+            });
+        }
+    }, [userData]);
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
         });
+    };
+    
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                const response = await axios.post(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, formData);
+                const imageUrl = response.data.data.url;
+                setFormData((prevData) => ({
+                    ...prevData,
+                    photoURL: imageUrl
+                }));
+                toast.success("Image uploaded successfully!");
+            } catch (error) {
+                toast.error("Image upload failed.");
+                console.error(error);
+            }
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -36,18 +71,6 @@ const UpdateProfile = () => {
         .catch((error) => {
             console.log(error.message)
         })
-        // try {
-        //     const response = await axiosPublic.put(`http://localhost:5000/all-users/${userData._id}`, formData);
-        //     if (response.data.modifiedCount > 0) {
-        //         toast.success("Profile updated successfully!");
-        //         refetchUserData(); // Refresh user data
-        //     } else {
-        //         toast.error("No changes detected.");
-        //     }
-        // } catch (error) {
-        //     toast.error("An error occurred while updating the profile.");
-        //     console.error(error);
-        // }
     };
 
     if (userDataLoading) {
@@ -86,6 +109,15 @@ const UpdateProfile = () => {
                             name="address"
                             value={formData.address}
                             onChange={handleChange}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-gray-700">Profile Picture</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
