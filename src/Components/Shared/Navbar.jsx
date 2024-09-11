@@ -6,7 +6,7 @@ import UseLoggedUser from "../../Hooks/UseLoggedUser";
 const Navbar = () => {
 
   const { user, logOut } = useContext(AuthContext);
-  const {userData, userDataLoading, refetchUserData} = UseLoggedUser();
+  const { userData, userDataLoading, refetchUserData } = UseLoggedUser();
   // console.log(userData)
   const handleSignOut = () => {
     logOut()
@@ -87,15 +87,26 @@ const Navbar = () => {
                 <div className="w-10 rounded-full">
                   <img
                     alt="User Image"
-                    src={userData?.photoURL}/>
+                    src={userData?.photoURL} />
                 </div>
               </div>
               <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-prime text-white rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                <li><Link to={`/student-dashboard/st-dashboard`}>Dashboard</Link></li>
-                <li><Link to={`/student-dashboard/profile`}>Profile</Link></li>
-                <li><Link to={`/student-dashboard/my-courses`}>My Courses</Link></li>
+                {
+                  userData.role == "admin" ?
+                    <div>
+                      <li><Link to={`/admin-dashboard/ad-dashboard`}>Dashboard</Link></li>
+                      <li><Link to={`/admin-dashboard/manage-courses`}>Manage Courses</Link></li>
+                      <li><Link to={`/admin-dashboard/add-courses`}>Add Courses</Link></li>
+                    </div>
+                    :
+                    <div>
+                      <li><Link to={`/student-dashboard/st-dashboard`}>Dashboard</Link></li>
+                      <li><Link to={`/student-dashboard/profile`}>Profile</Link></li>
+                      <li><Link to={`/student-dashboard/my-courses`}>My Courses</Link></li>
+                    </div>
+                }
                 <hr />
                 <li onClick={handleSignOut}><a>Logout</a></li>
               </ul>

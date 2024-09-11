@@ -34,8 +34,8 @@ const Profile = () => {
                         </div>
                         <div className="flex flex-col gap-2">
                             <p className="text-main border-2 border-prime p-2 rounded-lg"><strong>Role:</strong> {userData.role}</p>
-                            <p className="text-main border-2 border-prime p-2 rounded-lg"><strong>User ID:</strong> {userData.userID}</p>
-                            <p className="text-main border-2 border-prime p-2 rounded-lg"><strong>ID:</strong> {userData._id}</p>
+                            <p className="text-main border-2 border-prime p-2 rounded-lg"><strong>User ID:</strong> <span className="text-xs">{userData.userID}</span></p>
+                            <p className="text-main border-2 border-prime p-2 rounded-lg"><strong>ID:</strong> <span className="text-xs">{userData._id}</span></p>
                             <p className="text-main border-2 border-prime p-2 rounded-lg"><strong>Password:</strong> {userData.password}</p>
                         </div>
                     </div>

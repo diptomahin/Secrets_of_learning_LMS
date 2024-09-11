@@ -15,6 +15,15 @@ import StudentDashboard from "../Pages/Student-Dashboard/StudentDashboard";
 import MyCourses from "../Pages/Student-Dashboard/MyCourses";
 import Profile from './../Pages/Student-Dashboard/Profile';
 import UpdateProfile from "../Pages/Student-Dashboard/UpdateProfile";
+import AdminDashboard from "../Pages/Admin-Dashboard/AdminDashboard";
+import Admin from './../Layout/Admin';
+import StudentRoute from "./StudentRoute";
+import AdminRoute from "./AdminRoute";
+import ManageCourses from "../Pages/Admin-Dashboard/ManageCourses";
+import AddCourses from "../Pages/Admin-Dashboard/AddCourses";
+import ManageUsers from "../Pages/Admin-Dashboard/ManageUsers";
+import AdminProfile from "../Pages/Admin-Dashboard/AdminProfile";
+import UpdateCourses from './../Pages/Admin-Dashboard/UpdateCourses';
 
 const router = createBrowserRouter([
     {
@@ -57,21 +66,55 @@ const router = createBrowserRouter([
         children: [
           {
             path: '/student-dashboard/st-dashboard',
-            element: <PrivetRoute><StudentDashboard /></PrivetRoute>
+            element: <StudentRoute><StudentDashboard /></StudentRoute>
           },
           {
             path: '/student-dashboard/my-courses',
-            element: <PrivetRoute><MyCourses /></PrivetRoute>
+            element: <StudentRoute><MyCourses /></StudentRoute>
           },
           {
             path: '/student-dashboard/profile',
-            element: <PrivetRoute><Profile /></PrivetRoute>
+            element: <StudentRoute><Profile /></StudentRoute>
           },
           {
             path: '/student-dashboard/update-profile/:id',
-            element: <PrivetRoute><UpdateProfile /></PrivetRoute>
+            element: <StudentRoute><UpdateProfile /></StudentRoute>
           },
     
+        ]
+      },
+    {
+        path: '/admin-dashboard',
+        element: <Admin></Admin>,
+        children: [
+          {
+            path: '/admin-dashboard/ad-dashboard',
+            element: <AdminRoute><AdminDashboard /></AdminRoute>
+          },
+          {
+            path: '/admin-dashboard/manage-courses',
+            element: <AdminRoute><ManageCourses /></AdminRoute>
+          },
+          {
+            path: '/admin-dashboard/add-courses',
+            element: <AdminRoute><AddCourses /></AdminRoute>
+          },
+          {
+            path: '/admin-dashboard/update-courses/:id',
+            element: <AdminRoute><UpdateCourses /></AdminRoute>
+          },
+          {
+            path: '/admin-dashboard/manage-users',
+            element: <AdminRoute><ManageUsers /></AdminRoute>
+          },
+          {
+            path: '/admin-dashboard/admin-profile',
+            element: <AdminRoute><AdminProfile /></AdminRoute>
+          },
+          {
+            path: '/admin-dashboard/admin-profile/:id',
+            element: <AdminRoute><UpdateProfile /></AdminRoute>
+          },
         ]
       }
   ]);
