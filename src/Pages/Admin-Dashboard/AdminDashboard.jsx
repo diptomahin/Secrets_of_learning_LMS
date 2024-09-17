@@ -53,7 +53,7 @@ const AdminDashboard = () => {
                     <div className="card-body flex-col items-center justify-around">
                         <LuUsers2  className="text-5xl text-prime"/>
                         <h2 className="text-2xl font-bold">{students.length}</h2>
-                        <h2 className="card-title hover:text-prime"><Link to={`/admin-dashboard/manage-users`}>Enrolled Students</Link></h2>
+                        <h2 className="card-title hover:text-prime"><Link to={`/admin-dashboard/manage-users/manage-students`}>Enrolled Students</Link></h2>
                     </div>
                 </div>
                 <div className="card border-main  border-2 bg-base-100 lg:w-96 shadow-xl h-56 mt-3">

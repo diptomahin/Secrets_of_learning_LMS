@@ -11,7 +11,7 @@ const AddCourses = () => {
     offer: '',
     price: '',
     discount: '',
-    status: 'Available',
+    status: 'Unavailable',
     students: '',
     reviews: '',
     positive_ratings: '',
@@ -207,8 +207,9 @@ const AddCourses = () => {
         </div>
       ))}
 
-      {/* Button to add a new module */}
-      <button
+     <div className='flex gap-3 flex-col md:flex-row'>
+       {/* Button to add a new module */}
+       <button
         type="button"
         onClick={handleAddModule}
         className="mt-4 px-4 py-2 bg-prime text-white font-semibold rounded"
@@ -223,6 +224,7 @@ const AddCourses = () => {
       >
         Submit
       </button>
+     </div>
     </form> 
         </div>
     );
