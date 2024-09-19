@@ -115,11 +115,11 @@ const CourseDetails = () => {
                 </div>
                 <div className="overflow-x-auto w-full lg:w-3/5 mt-7">
                     <table className="table">
-                        <h1 className="text-xl font-semibold mb-2">Course Module :</h1>
+                        <h1 className="text-xl font-semibold mb-2">What You Will Learn :</h1>
                         <hr className="mb-3" />
                         <tbody>
                             {/* row 1 */}
-                            {course.modules.map(topic =>
+                            {course.whatYoullLearn.map(topic =>
                                 <tr key={topic} className="bg-base-200">
                                     <td className="border-main border-2 text-lg flex gap-5 items-center my-1"><GoFileSubmodule /> {topic}</td>
                                 </tr>)}

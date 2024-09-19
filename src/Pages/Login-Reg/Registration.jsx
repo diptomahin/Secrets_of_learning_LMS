@@ -12,7 +12,7 @@ const Registration = () => {
  
   const axiosPublic = useAxios();
 
-  const {allUser, refetchAllUserData, AllUserDataIsLoading, AllUserDataIsPending} = UseUsers();
+  const {allUser} = UseUsers();
 
   const navigate = useNavigate();
 

@@ -9,7 +9,7 @@ import Login from './../Pages/Login-Reg/Login';
 import Registration from './../Pages/Login-Reg/Registration';
 import AllCourses from './../Pages/Courses/AllCourses';
 import CourseDetails from "../Pages/Courses/CourseDetails";
-import PrivetRoute from "./PrivetRoute";
+
 import Student from "../Layout/Student";
 import StudentDashboard from "../Pages/Student-Dashboard/StudentDashboard";
 import MyCourses from "../Pages/Student-Dashboard/MyCourses";
