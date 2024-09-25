@@ -23,7 +23,7 @@ const CourseDetails = () => {
 
     const axiosPublic = useAxios();
 
-    const { userData, userDataLoading, refetchUserData } = UseLoggedUser();
+    const { userData } = UseLoggedUser();
 
     const [course, setCourse] = useState();
     const [price, setPrice] = useState();
@@ -38,14 +38,14 @@ const CourseDetails = () => {
                 setPrice(course.price)
                 setDiscount(course.discount)
             });
-    }, [id,course]);
-     
+    }, [id, course]);
 
-    useEffect(()=>{
+
+    useEffect(() => {
         const disc = parseFloat(discount) / 100
         const takaSaved = price * disc;
         setTakaNow(price - takaSaved);
-    },[discount, price])
+    }, [discount, price])
 
 
 
@@ -84,13 +84,18 @@ const CourseDetails = () => {
                     <div className="w-full lg:w-3/5 flex flex-col gap-5">
                         <h1 className="text-2xl font-bold text-main">{course.title}</h1>
                         <p className="text-lg text-main">A course by <span className="text-xl font-semibold">{course.trainer}</span></p>
-                        <iframe className="rounded-lg w-full h-[400px]" src="https://www.youtube.com/embed/SlYcqjhoGzM?si=FTaWxa7xKnr_5JyJ" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" ></iframe>
-                        <p className="text-lg flex flex-col gap-2 text-main"><span className="text-xl font-semibold">Description:</span>{course.description}</p>
-                        <div className="flex border-main bg-base-200 p-7 text-2xl my-5 font-semibold rounded-lg justify-around w-3/5 lg:w-1/2 mx-auto">
-                            <p className="flex items-center gap-2"><PiStudentBold /> {course.students}</p>
-                            <p className="flex items-center gap-2"><MdOutlineRateReview /> {course.reviews}</p>
-                            <p className="flex items-center gap-2"><AiOutlineLike /> {course.positive_ratings}</p>
-                        </div>
+                        <video
+                            controls
+                            width="600" // Set the desired width
+                            src="https://res.cloudinary.com/dee3gsels/video/upload/v1726779555/rhv8inr7snotydlzm6o4.mp4"
+                            type="video/mp4"
+                        ></video>
+                            <p className="text-lg flex flex-col gap-2 text-main"><span className="text-xl font-semibold">Description:</span>{course.description}</p>
+                            <div className="flex border-main bg-base-200 p-7 text-2xl my-5 font-semibold rounded-lg justify-around w-3/5 lg:w-1/2 mx-auto">
+                                <p className="flex items-center gap-2"><PiStudentBold /> {course.students}</p>
+                                <p className="flex items-center gap-2"><MdOutlineRateReview /> {course.reviews}</p>
+                                <p className="flex items-center gap-2"><AiOutlineLike /> {course.positive_ratings}</p>
+                            </div>
                     </div>
                     <div className=" w-full lg:w-2/5">
                         <div className="card bg-main text-white mt-24">

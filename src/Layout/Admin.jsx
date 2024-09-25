@@ -53,6 +53,16 @@ const Admin = () => {
                                     textDecorationThickness: isActive ? '2px' : 'none',
                                 };
                             }}>Add Courses</NavLink></li>
+                            <li className="my-3"><NavLink to='/admin-dashboard/add-live-courses' style={({ isActive }) => {
+                                return {
+                                    color: isActive ? "white" : "white",
+                                    backgroundColor: isActive ? "inherit" : "inherit",
+                                    textDecoration: isActive ? 'underline' : "none",
+                                    textUnderlineOffset: isActive ? '10px' : 'none',
+                                    textDecorationColor: isActive ? '#f02d00' : 'none',
+                                    textDecorationThickness: isActive ? '2px' : 'none',
+                                };
+                            }}>Live Courses</NavLink></li>
                             <li className="my-3"><NavLink to='/admin-dashboard/manage-users' style={({ isActive }) => {
                                 return {
                                     color: isActive ? "white" : "white",

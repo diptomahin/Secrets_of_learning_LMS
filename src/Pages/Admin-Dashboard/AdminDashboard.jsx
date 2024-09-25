@@ -21,9 +21,9 @@ const AdminDashboard = () => {
         setAdmin(allUser.filter(user => user.role == "admin"))
     }, [allUser])
 
-    console.log(allUser)
-    console.log(students)
-    console.log(admin)
+    // console.log(allUser)
+    // console.log(students)
+    // console.log(admin)
 
     return (
         <div className="mt-10">
