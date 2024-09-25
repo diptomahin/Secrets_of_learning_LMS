@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import useAxios from "../../Hooks/UseAxios";
 import UseLoggedUser from "../../Hooks/UseLoggedUser";
 import { AuthContext } from "../../Providers/AuthProvider";
-import { ImTicket } from "react-icons/im";
 
 import {
     Accordion,
@@ -34,7 +33,7 @@ const LiveCourseDetails = () => {
     const [takaNow, setTakaNow] = useState(0);
 
     useEffect(() => {
-        fetch('http://localhost:5000/live-courses')
+        fetch('https://secrets-of-learning-server.vercel.app/live-courses')
             .then(res => res.json())
             .then(data => {
                 setCourse(data.find(course => course._id == id))

@@ -31,7 +31,7 @@ const CourseDetails = () => {
     const [takaNow, setTakaNow] = useState(0);
 
     useEffect(() => {
-        fetch('http://localhost:5000/all-courses')
+        fetch('https://secrets-of-learning-server.vercel.app/all-courses')
             .then(res => res.json())
             .then(data => {
                 setCourse(data.find(course => course._id == id))
@@ -62,7 +62,7 @@ const CourseDetails = () => {
 
         const courseId = course._id;
 
-        axiosPublic.put(`http://localhost:5000/all-users/${userData._id}/enrolled`, { courseId })
+        axiosPublic.put(`https://secrets-of-learning-server.vercel.app/all-users/${userData._id}/enrolled`, { courseId })
             .then(res => {
                 if (res.data.result.acknowledged == true) {
                     console.log('User enrolled in the course successfully');

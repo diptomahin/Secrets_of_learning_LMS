@@ -56,7 +56,7 @@ const Login = () => {
                         password: "Logged in with google",
                         Enrolled: [],
                     };
-                    axiosPublic.post('http://localhost:5000/all-users', userInfo)
+                    axiosPublic.post('https://secrets-of-learning-server.vercel.app/all-users', userInfo)
                     .then(res => {
                         if (res.data.insertedId) {
                             console.log('user added to the database')
