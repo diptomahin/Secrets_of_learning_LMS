@@ -12,6 +12,7 @@ import {
     AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import toast from "react-hot-toast";
 
 const LiveCourseDetails = () => {
 
@@ -33,7 +34,7 @@ const LiveCourseDetails = () => {
     const [takaNow, setTakaNow] = useState(0);
 
     useEffect(() => {
-        fetch('https://secrets-of-learning-server.vercel.app/live-courses')
+        fetch('http://localhost:5000/live-courses')
             .then(res => res.json())
             .then(data => {
                 setCourse(data.find(course => course._id == id))
@@ -49,7 +50,42 @@ const LiveCourseDetails = () => {
         setTakaNow(price - takaSaved);
     }, [discount, price])
 
+    const initialBillingDetails = {
+        name: '',
+        phoneNumber: '',
+        email: '',
+        address: '',
+        transactionId: '',
+        c_id: id,
+    };
 
+    const [billingDetails, setBillingDetails] = useState(initialBillingDetails);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setBillingDetails((prevDetails) => ({
+            ...prevDetails,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // console.log('Billing Details:', billingDetails);
+        axiosPublic.post('/live-enroll', billingDetails)
+            .then(res => {
+                console.log(res)
+                if (res.data.result.
+                    insertedId) {
+                    toast.success('Submitted successfully');
+                    setBillingDetails(initialBillingDetails);
+                }
+            })
+            .catch(error => {
+                toast.error('Submission Failed');
+                console.error(error);
+            })
+    };
     // console.log(course)
 
     if (course) {
@@ -139,6 +175,109 @@ const LiveCourseDetails = () => {
                             <p>{course.trainer.designation}</p>
                             <p>{course.trainer.info}</p>
                         </div>
+                    </div>
+                </div>
+                <div>
+                    <div className="w-11/12 mx-auto">
+                        <form onSubmit={handleSubmit} className="w-11/12 mx-auto p-4 rounded-lg shadow-lg bg-white  mb-10">
+                            <h2 className="text-2xl font-bold mb-4 text-center">Billing Details</h2>
+                            <div className="flex justify-evenly flex-col lg:flex-row gap-5 ">
+                                <div>
+                                    <div className="mb-4">
+                                        <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+                                            Name
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="name"
+                                            value={billingDetails.name}
+                                            onChange={handleChange}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="mb-4">
+                                        <label htmlFor="phoneNumber" className="block text-gray-700 font-bold mb-2">
+                                            Phone Number
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            id="phoneNumber"
+                                            name="phoneNumber"
+                                            value={billingDetails.phoneNumber}
+                                            onChange={handleChange}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="mb-4">
+                                        <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+                                            Email
+                                        </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            value={billingDetails.email}
+                                            onChange={handleChange}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="mb-4">
+                                        <label htmlFor="address" className="block text-gray-700 font-bold mb-2">
+                                            Address
+                                        </label>
+                                        <textarea
+                                            id="address"
+                                            name="address"
+                                            value={billingDetails.address}
+                                            onChange={handleChange}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="my-5">
+                                        <p className="text-xl my-3 text-main font-semibold">Send money with Bkash and <br /> Submit the <span className="bg-prime p-1 text-white rounded-lg">transaction id</span></p>
+                                        <div className="flex flex-col lg:flex-row gap-2 items-center">
+                                            <img className="w-24" src="https://i.ibb.co.com/mc7kvDy/BKash-Logo-wine.png" alt="" />
+                                            <p className="font-bold text-xl text-[#d12053]">+8801963895488</p>
+                                        </div>
+                                    </div>
+                                    <div className="text-lg  font-semibold">
+                                        <h1 className="flex justify-between">Price                : <span className="font-bold text-main">{course.price}</span></h1>
+                                        <h1 className="flex justify-between">Discount             : <span className="">- {course.discount}</span></h1>
+                                        <h1 className="flex justify-between text-[#e2136e] font-bold">Price with discount  : <span className="font-bold text-white p-1 rounded-lg bg-[#e2136e]">{takaNow}</span></h1>
+                                    </div>
+                                    <div className="mb-4">
+                                        <label htmlFor="transactionId" className="block text-gray-700 font-bold mb-2">
+                                            Transaction ID
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="transactionId"
+                                            name="transactionId"
+                                            value={billingDetails.transactionId}
+                                            onChange={handleChange}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                type="submit"
+                                className="w-full btn  bg-prime text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
+                            >
+                                Submit
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -1,201 +1,210 @@
-import { useState } from 'react';
-import axios from 'axios'; // For making API requests to the server
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
 import useAxios from '../../Hooks/UseAxios';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
-const AddLiveCourses = () => {
-  const axiosPublic = useAxios();
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [courseData, setCourseData] = useState({
-    title: '',
-    trainer: {
-      name: '',
-      designation: '',
-      info: '',
-      image: '',
-    },
-    description: '',
-    short_description: '',
-    trailer: '',
-    offer: '',
-    price: '',
-    discount: '',
-    status: 'Unavailable',
-    course_type: 'live',  
-    students: '',
-    reviews: '',
-    positive_ratings: '',
-    whatYoullLearn: [{ topic: '', description: '' }],
-    courseFeatures: [{ feature: '', description: '' }],
-    software: [{ name: '', description: '' }]
-  });
-
-  // Imgbb API Key
-  const imgbbAPIKey = "9b00e5928e6cb63a96541485f6f339eb";
-
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCourseData({
-      ...courseData,
-      [name]: value,
+const UpdateLiveCourse = () => {
+    const { id } = useParams(); // Get course id from URL
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const axiosPublic = useAxios();
+   
+    const [courseData, setCourseData] = useState({
+        title: '',
+        trainer: { name: '', designation: '', info: '', image: '' },
+        description: '',
+        short_description: '',
+        trailer: '',
+        offer: '',
+        price: '',
+        discount: '',
+        status: '',
+        students: '',
+        reviews: '',
+        positive_ratings: '',
+        whatYoullLearn: [{ topic: '', description: '' }],
+        software: [{ name: '', description: '' }],
+        courseFeatures: [{ feature: '', description: '' }],
     });
-  };
+    // // Fetch the course details using the ID
+    // useEffect(() => {
+    //     axios.get(`http://localhost:5000/live-courses/${id}`)
+    //         .then(res => setCourseData(res.data))
+    //         .catch(error => console.error("Error fetching course details:", error));
+    // }, [id]);
+     
+    // console.log(courseData)
 
-  const handleTrainerChange = (e) => {
-    const { name, value } = e.target;
-    setCourseData({
-      ...courseData,
-      trainer: { ...courseData.trainer, [name]: value },
-    });
-  };
+    useEffect(() => {
+        fetch('http://localhost:5000/live-courses')
+            .then(res => res.json())
+            .then(data => {
+                setCourseData(data.find(course => course._id == id))
+            });
+    }, [id]);
 
-  // ImgBB Image Upload Handler for Trainer
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
+
+
+
+    const imgbbAPIKey = "9b00e5928e6cb63a96541485f6f339eb";
+
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setCourseData({
+        ...courseData,
+        [name]: value,
+      });
+    };
+  
+    const handleTrainerChange = (e) => {
+      const { name, value } = e.target;
+      setCourseData({
+        ...courseData,
+        trainer: { ...courseData.trainer, [name]: value },
+      });
+    };
+  
+    // ImgBB Image Upload Handler for Trainer
+    const handleImageChange = async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append('image', file);
+  
+        try {
+          setLoading(true);
+          const response = await axios.post(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, formData);
+          const imageUrl = response.data.data.url;
+          setCourseData((prevData) => ({
+            ...prevData,
+            trainer: { ...prevData.trainer, image: imageUrl },
+          }));
+          toast.success("Image uploaded successfully!");
+          setLoading(false);
+        } catch (error) {
+          toast.error("Image upload failed.");
+          console.error(error);
+          setLoading(false);
+        }
+      }
+    };
+  
+    const handleWhatYouLearnChange = (e, index, field) => {
+      const { value } = e.target;
+      const updatedLearn = [...courseData.whatYoullLearn];
+      updatedLearn[index][field] = value;
+      setCourseData({ ...courseData, whatYoullLearn: updatedLearn });
+    };
+  
+    const handleAddWhatYouLearn = () => {
+      setCourseData({
+        ...courseData,
+        whatYoullLearn: [...courseData.whatYoullLearn, { topic: '', description: '' }],
+      });
+    };
+  
+    const handleRemoveWhatYouLearn = (index) => {
+      const updatedLearn = courseData.whatYoullLearn.filter((_, i) => i !== index);
+      setCourseData({
+        ...courseData,
+        whatYoullLearn: updatedLearn,
+      });
+    };
+  
+    const handleCourseFeatureChange = (e, index, field) => {
+      const { value } = e.target;
+      const updatedFeatures = [...courseData.courseFeatures];
+      updatedFeatures[index][field] = value;
+      setCourseData({ ...courseData, courseFeatures: updatedFeatures });
+    };
+  
+    const handleAddCourseFeature = () => {
+      setCourseData({
+        ...courseData,
+        courseFeatures: [...courseData.courseFeatures, { feature: '', description: '' }],
+      });
+    };
+  
+    const handleRemoveCourseFeature = (index) => {
+      const updatedFeatures = courseData.courseFeatures.filter((_, i) => i !== index);
+      setCourseData({
+        ...courseData,
+        courseFeatures: updatedFeatures,
+      });
+    };
+  
+    const handleSoftwareChange = (e, index, field) => {
+      const { value } = e.target;
+      const updatedSoftware = [...courseData.software];
+      updatedSoftware[index][field] = value;
+      setCourseData({ ...courseData, software: updatedSoftware });
+    };
+  
+    const handleAddSoftware = () => {
+      setCourseData({
+        ...courseData,
+        software: [...courseData.software, { name: '', description: '' }],
+      });
+    };
+  
+    const handleRemoveSoftware = (index) => {
+      const updatedSoftware = courseData.software.filter((_, i) => i !== index);
+      setCourseData({
+        ...courseData,
+        software: updatedSoftware,
+      });
+    };
+  
+    // Cloudinary Video Upload for Trailer
+    const handleTrailerUpload = async (file) => {
       const formData = new FormData();
-      formData.append('image', file);
-
+      formData.append('file', file);
+      formData.append('upload_preset', 'video_preset'); // Change to your actual preset
+  
       try {
         setLoading(true);
-        const response = await axios.post(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, formData);
-        const imageUrl = response.data.data.url;
-        setCourseData((prevData) => ({
-          ...prevData,
-          trainer: { ...prevData.trainer, image: imageUrl },
-        }));
-        toast.success("Image uploaded successfully!");
+        const cloudName = import.meta.env.VITE_cloudinaryCloudeName;
+        const res = await axios.post(
+          `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+        const videoUrl = res.data.secure_url;
+        setCourseData({ ...courseData, trailer: videoUrl });
+        toast.success('Trailer Uploaded Successfully');
         setLoading(false);
       } catch (error) {
-        toast.error("Image upload failed.");
-        console.error(error);
+        console.error('Error uploading trailer:', error);
         setLoading(false);
+        toast.error('Trailer upload failed');
       }
-    }
-  };
+    };
+  
 
-  const handleWhatYouLearnChange = (e, index, field) => {
-    const { value } = e.target;
-    const updatedLearn = [...courseData.whatYoullLearn];
-    updatedLearn[index][field] = value;
-    setCourseData({ ...courseData, whatYoullLearn: updatedLearn });
-  };
-
-  const handleAddWhatYouLearn = () => {
-    setCourseData({
-      ...courseData,
-      whatYoullLearn: [...courseData.whatYoullLearn, { topic: '', description: '' }],
-    });
-  };
-
-  const handleRemoveWhatYouLearn = (index) => {
-    const updatedLearn = courseData.whatYoullLearn.filter((_, i) => i !== index);
-    setCourseData({
-      ...courseData,
-      whatYoullLearn: updatedLearn,
-    });
-  };
-
-  const handleCourseFeatureChange = (e, index, field) => {
-    const { value } = e.target;
-    const updatedFeatures = [...courseData.courseFeatures];
-    updatedFeatures[index][field] = value;
-    setCourseData({ ...courseData, courseFeatures: updatedFeatures });
-  };
-
-  const handleAddCourseFeature = () => {
-    setCourseData({
-      ...courseData,
-      courseFeatures: [...courseData.courseFeatures, { feature: '', description: '' }],
-    });
-  };
-
-  const handleRemoveCourseFeature = (index) => {
-    const updatedFeatures = courseData.courseFeatures.filter((_, i) => i !== index);
-    setCourseData({
-      ...courseData,
-      courseFeatures: updatedFeatures,
-    });
-  };
-
-  const handleSoftwareChange = (e, index, field) => {
-    const { value } = e.target;
-    const updatedSoftware = [...courseData.software];
-    updatedSoftware[index][field] = value;
-    setCourseData({ ...courseData, software: updatedSoftware });
-  };
-
-  const handleAddSoftware = () => {
-    setCourseData({
-      ...courseData,
-      software: [...courseData.software, { name: '', description: '' }],
-    });
-  };
-
-  const handleRemoveSoftware = (index) => {
-    const updatedSoftware = courseData.software.filter((_, i) => i !== index);
-    setCourseData({
-      ...courseData,
-      software: updatedSoftware,
-    });
-  };
-
-  // Cloudinary Video Upload for Trailer
-  const handleTrailerUpload = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'video_preset'); // Change to your actual preset
-
-    try {
-      setLoading(true);
-      const cloudName = import.meta.env.VITE_cloudinaryCloudeName;
-      const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axiosPublic.put(`http://localhost:5000/live-courses/${id}`, courseData);
+            if (response.data.result.modifiedCount > 0) {
+                toast.success("Course updated successfully");
+                navigate(`/course/${id}`); // Redirect after successful update
+            }
+        } catch (error) {
+            toast.error("Failed to update the course");
+            console.error(error);
         }
-      );
-      const videoUrl = res.data.secure_url;
-      setCourseData({ ...courseData, trailer: videoUrl });
-      toast.success('Trailer Uploaded Successfully');
-      setLoading(false);
-    } catch (error) {
-      console.error('Error uploading trailer:', error);
-      setLoading(false);
-      toast.error('Trailer upload failed');
-    }
-  };
+    };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!courseData.title || !courseData.trainer.name || !courseData.description) {
-      toast.error('Please fill in all required fields');
-      return;
-    }
 
-    setLoading(true);
-    axiosPublic.post('/live-courses', courseData)
-      .then(res => {
-        if (res.data.insertedId) {
-          toast.success('Course added successfully');
-          navigate('/admin-dashboard/manage-courses');
-        }
-      })
-      .catch(error => {
-        toast.error('Failed to add course');
-        console.error(error);
-      })
-      .finally(() => setLoading(false));
-  };
-
-  return (
-    <div className="mt-10 ">
+    return (
+        <div className="mt-10 ">
       <form className="p-3  shadow-md rounded-md" onSubmit={handleSubmit}>
         <h2 className="text-2xl font-bold mb-4">Course Information</h2>
 
@@ -489,7 +498,7 @@ const AddLiveCourses = () => {
         </div>
       </form>
     </div>
-  );
+    );
 };
 
-export default AddLiveCourses;
+export default UpdateLiveCourse;

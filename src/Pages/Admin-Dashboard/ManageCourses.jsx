@@ -60,26 +60,37 @@ const ManageCourses = () => {
                                 </div>
                                 <div className="flex flex-col flex-grow mt-3 justify-between">
                                     <div className="mx-1 flex flex-col gap-2">
-                                       {
-                                        course.course_type ?  <Link to={`/course/${course._id}`}>
-                                            <h2 className="text-main hover:text-prime text-lg font-bold">{course.title}</h2></Link> :  <Link to={`/courses/${course._id}`}>
-                                            <h2 className="text-main hover:text-prime text-lg font-bold">{course.title}</h2></Link>
-                                       }
-                                       {
-                                        course.course_type ?  <h2 className="text-main text-lg font-semibold">{course.trainer.name}</h2>
-                                        :<h2 className="text-main text-lg font-semibold">{course.trainer}</h2>
-                                       }
+                                        {
+                                            course.course_type ? <Link to={`/course/${course._id}`}>
+                                                <h2 className="text-main hover:text-prime text-lg font-bold">{course.title}</h2></Link> : <Link to={`/courses/${course._id}`}>
+                                                <h2 className="text-main hover:text-prime text-lg font-bold">{course.title}</h2></Link>
+                                        }
+                                        {
+                                            course.course_type ? <h2 className="text-main text-lg font-semibold">{course.trainer.name}</h2>
+                                                : <h2 className="text-main text-lg font-semibold">{course.trainer}</h2>
+                                        }
                                         <p className="">{course.short_description}</p>
                                     </div>
                                     <div className="card-actions w-full   my-3 text-center">
-                                        <p className="mb-1 text-lg mx-auto text-prime font-semibold">
-                                            {course.discount} Disc <span style={{ "text-decoration": "line-through", }} className="">{course.price} Tk</span></p>
-                                        <p className="mb-1 text-lg mx-auto text-prime font-semibold">
-                                            Buying Price {discountCounter(course.price, course.discount)} Tk
-                                        </p>
-                                        <Link className="w-full" to={`/admin-dashboard/update-courses/${course._id}`}>
-                                            <button className="text-center rounded-lg flex justify-center bg-main text-white p-2 gap-2 w-11/12 mx-auto  items-center font-semibold text-xl"><FaRegEdit className="font-bold text-2xl" />Edit Course</button>
-                                        </Link>
+                                        {
+                                            course.course_type ? <div className='flex flex-col gap-2 items-center'>
+                                                <Link className='w-full' to={`/admin-dashboard/live-courses/${course._id}`}>
+                                                    <button className='p-2 rounded-lg bg-prime font-semibold text-xl ml-4 w-full text-white'>Enrollment</button>
+                                                </Link>
+                                                <Link className="w-full" to={`/admin-dashboard/update-live-courses/${course._id}`}>
+                                                    <button className="w-full ml-3 text-center rounded-lg flex justify-center bg-main text-white p-2 gap-2   items-center font-semibold text-xl"><FaRegEdit className="font-bold text-2xl" />Edit Course</button>
+                                                </Link>
+                                            </div>
+                                                : <div>                                        <p className="mb-1 text-lg mx-auto text-prime font-semibold">
+                                                    {course.discount} Disc <span style={{ "text-decoration": "line-through", }} className="">{course.price} Tk</span></p>
+                                                    <p className="mb-1 text-lg mx-auto text-prime font-semibold">
+                                                        Buying Price {discountCounter(course.price, course.discount)} Tk
+                                                    </p>
+                                                    <Link className="w-full" to={`/admin-dashboard/update-courses/${course._id}`}>
+                                                        <button className="text-center rounded-lg flex justify-center bg-main text-white p-2 gap-2 w-11/12 mx-auto  items-center font-semibold text-xl"><FaRegEdit className="font-bold text-2xl" />Edit Course</button>
+                                                    </Link>
+                                                </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

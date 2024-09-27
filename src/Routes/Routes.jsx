@@ -27,6 +27,8 @@ import UpdateCourses from './../Pages/Admin-Dashboard/UpdateCourses';
 import ManageStudents from "../Pages/Admin-Dashboard/ManageStudents";
 import AddLiveCourse from "../Pages/Admin-Dashboard/AddLiveCourse";
 import LiveCourseDetails from './../Pages/Courses/LiveCourseDetails';
+import LiveEnrollment from "../Pages/Admin-Dashboard/LiveEnrollment";
+import UpdateLiveCourse from "../Pages/Admin-Dashboard/UpdateLiveCourse";
 
 const router = createBrowserRouter([
     {
@@ -109,6 +111,14 @@ const router = createBrowserRouter([
           {
             path: '/admin-dashboard/add-live-courses',
             element: <AdminRoute><AddLiveCourse /></AdminRoute>
+          },
+          {
+            path: '/admin-dashboard/update-live-courses/:id',
+            element: <AdminRoute><UpdateLiveCourse /></AdminRoute>
+          },
+          {
+            path: '/admin-dashboard/live-courses/:id',
+            element: <AdminRoute><LiveEnrollment /></AdminRoute>
           },
           {
             path: '/admin-dashboard/update-courses/:id',

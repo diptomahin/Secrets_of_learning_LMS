@@ -8,7 +8,7 @@ const StudentDashboard = () => {
     const {userData, userDataLoading, refetchUserData} = UseLoggedUser();
     const [courses, setCourses] = useState([]);
     useEffect(() => {
-        fetch('https://secrets-of-learning-server.vercel.app/all-courses')
+        fetch('http://localhost:5000/all-courses')
             .then(res => res.json())
             .then(data => setCourses(data));
     }, []);
