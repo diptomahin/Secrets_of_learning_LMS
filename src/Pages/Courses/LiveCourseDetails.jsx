@@ -34,7 +34,7 @@ const LiveCourseDetails = () => {
     const [takaNow, setTakaNow] = useState(0);
 
     useEffect(() => {
-        fetch('http://localhost:5000/live-courses')
+        fetch('https://secrets-of-learning-server.onrender.com/live-courses')
             .then(res => res.json())
             .then(data => {
                 setCourse(data.find(course => course._id == id))

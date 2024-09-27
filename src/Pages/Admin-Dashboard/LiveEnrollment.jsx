@@ -6,7 +6,7 @@ const LiveEnrollment = () => {
     const [enrollment, setEnrollment] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:5000/live-enroll')
+        fetch('https://secrets-of-learning-server.onrender.com/live-enroll')
             .then(res => res.json())
             .then(data => {
                 setEnrollment(data.filter(item => item.c_id == id))
