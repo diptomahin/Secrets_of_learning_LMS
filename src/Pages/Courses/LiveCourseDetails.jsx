@@ -325,7 +325,7 @@ const LiveCourseDetails = () => {
                                 </div>
                                 <div>
                                     <div className="my-5">
-                                        <p className="text-xl my-3 text-main font-semibold"><span className="bg-prime p-1 text-white rounded-lg">Send money </span>with Bkash/Nagad and <br /> Submit the transaction id</p>
+                                        <p className="text-xl my-3 text-main font-semibold"><span className="bg-prime p-1 text-white rounded-lg">Send money</span> with Bkash/Nagad and <br /> Submit the transaction id</p>
                                         <div className="flex flex-col  gap-2 items-center">
                                             <div className="flex">
                                                 <img className="w-24" src="https://i.ibb.co.com/7QTW6Q4/Nagad-Logo-wine.png" alt="" />
