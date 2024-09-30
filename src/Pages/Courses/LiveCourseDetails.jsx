@@ -146,9 +146,9 @@ const LiveCourseDetails = () => {
                 {/* Course Features */}
                 <div className="text-center py-10">
                     <h1 className="text-2xl font-semibold">
-                        আমাদের কোর্স এর{" "}
+                    এই কোর্সের{" "}
                         <span className="bg-prime text-white rounded-lg p-1">
-                            ফিচার
+                        ফীচার
                         </span>
                         !!!
                     </h1>
@@ -195,7 +195,7 @@ const LiveCourseDetails = () => {
                     </div>
                 </div>
                 <div className="text-center py-10 my-10 card card-compact bg-base-100  shadow-xl w-11/12 mx-auto">
-                    <h1 className="text-2xl font-semibold mb-5">কোর্স <span className="bg-prime text-white rounded-lg p-1">কারিকুলাম</span> !!</h1>
+                    <h1 className="text-2xl font-semibold mb-5">কোর্স <span className="bg-prime text-white rounded-lg p-1">মডিউল</span> !!</h1>
                     <div className="w-11/12 mx-auto">
                         <Accordion allowZeroExpanded>
                             {
