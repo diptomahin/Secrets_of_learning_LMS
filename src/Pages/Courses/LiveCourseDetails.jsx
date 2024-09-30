@@ -336,7 +336,7 @@ const LiveCourseDetails = () => {
                                     </div>
                                     <div className="text-lg  font-semibold my-5">
                                         <h1 className="flex justify-between">Price                : <span className="font-bold text-main">{course.price} Tk</span></h1>
-                                        <h1 className="flex justify-between">Discount             : <span className="">- {course.discount} Tk</span></h1>
+                                        <h1 className="flex justify-between">Discount             : <span className="">- {course.discount} %</span></h1>
                                         <h1 className="flex justify-between text-[#e2136e] font-bold">Price with discount  : <span className="font-bold text-white p-1 rounded-lg bg-[#e2136e]">{takaNow} Tk</span></h1>
                                     </div>
                                     <div className="mb-4">
