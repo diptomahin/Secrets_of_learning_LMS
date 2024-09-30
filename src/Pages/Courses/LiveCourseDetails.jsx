@@ -64,9 +64,11 @@ const LiveCourseDetails = () => {
 
     const initialBillingDetails = {
         name: '',
+        birth: '',
         phoneNumber: '',
         email: '',
         address: '',
+        transactionNumber: '',
         transactionId: '',
         c_id: id,
     };
@@ -197,7 +199,28 @@ const LiveCourseDetails = () => {
                         ))}
                     </div>
                 </div>
-
+                <div className="text-center py-10 my-10 card card-compact bg-base-100  shadow-xl w-11/12 mx-auto">
+                    <h1 className="text-2xl font-semibold mb-5">কোর্স <span className="bg-prime text-white rounded-lg p-1">কারিকুলাম</span> !!</h1>
+                    <div className="w-11/12 mx-auto">
+                        <Accordion allowZeroExpanded>
+                            {
+                                course.whatYoullLearn.map(item =>
+                                    <AccordionItem key={item.topic}>
+                                        <AccordionItemHeading>
+                                            <AccordionItemButton>
+                                                {item.topic}
+                                            </AccordionItemButton>
+                                        </AccordionItemHeading>
+                                        <AccordionItemPanel>
+                                            <p>
+                                                {item.description}
+                                            </p>
+                                        </AccordionItemPanel>
+                                    </AccordionItem>)
+                            }
+                        </Accordion>
+                    </div>
+                </div>
                 {/* Mentor Section */}
                 <div className="bg-base-100 shadow-xl p-10 my-10 w-full md:w-11/12 mx-auto">
                     <h1 className="text-2xl text-center font-semibold mb-5">
@@ -215,20 +238,26 @@ const LiveCourseDetails = () => {
                         </div>
                         <div className="card-body">
                             <h2 className="card-title">{course.trainer.name}</h2>
-                            <p>{course.trainer.designation}</p>
+                            <p className="font-semibold">{course.trainer.designation}</p>
                             <p>{course.trainer.info}</p>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <div className="md:w-11/12 md:mx-auto">
+                    <div className="md:w-11/12 md:mx-auto rounded-lg shadow-lg bg-white">
+                        <div className="text-center py-10">
+                            <h1 className="text-2xl font-semibold">ভর্তি হবার নিয়ম</h1>
+                            <p className="text-lg">ভর্তি হতে নিচের দেওয়া <span className="font-semibold">বিকাশ/ নগদ</span> নাম্বারে কোর্স ফী <span className="font-bold">Send Money</span> করুন এবং নিচের ফর্মটি ফিলাপ করে দিন।
+                            </p>
+                            <p className="text-lg">টাকা পাঠানো ও ফর্ম ফিলাপ সাকসেস্ফুল হলে আপনার কাছে মেন্টর নিজে কল করে কনফার্মেশন জানাবেন।</p>
+                        </div>
                         <form id="enroll" onSubmit={handleSubmit} className="w-11/12 mx-auto p-4 rounded-lg shadow-lg bg-white  mb-10">
                             <h2 className="text-2xl font-bold mb-4 text-center">Billing Details</h2>
                             <div className="flex justify-evenly flex-col lg:flex-row gap-5 ">
                                 <div>
                                     <div className="mb-4">
                                         <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
-                                            Name
+                                            আপনার নামঃ
                                         </label>
                                         <input
                                             type="text"
@@ -240,10 +269,24 @@ const LiveCourseDetails = () => {
                                             required
                                         />
                                     </div>
+                                    <div className="mb-4">
+                                        <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+                                            জন্মতারিখ ও সালঃ
+                                        </label>
+                                        <input
+                                            type="date"
+                                            id="birth"
+                                            name="birth"
+                                            value={billingDetails.birth}
+                                            onChange={handleChange}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
+                                    </div>
 
                                     <div className="mb-4">
                                         <label htmlFor="phoneNumber" className="block text-gray-700 font-bold mb-2">
-                                            Whatsapp Number
+                                            WhatsApp নাম্বারঃ
                                         </label>
                                         <input
                                             type="tel"
@@ -258,7 +301,7 @@ const LiveCourseDetails = () => {
 
                                     <div className="mb-4">
                                         <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
-                                            Email
+                                            ই-মেইল এড্রেসঃ
                                         </label>
                                         <input
                                             type="email"
@@ -273,7 +316,7 @@ const LiveCourseDetails = () => {
 
                                     <div className="mb-4">
                                         <label htmlFor="address" className="block text-gray-700 font-bold mb-2">
-                                            Address
+                                            আপনার বাসার ডিটেইলস এড্রেসঃ
                                         </label>
                                         <textarea
                                             id="address"
@@ -296,14 +339,28 @@ const LiveCourseDetails = () => {
                                             <p className="font-bold text-xl text-white bg-prime p-1 rounded-lg">+8801850002467</p>
                                         </div>
                                     </div>
-                                    <div className="text-lg  font-semibold">
+                                    <div className="text-lg  font-semibold my-5">
                                         <h1 className="flex justify-between">Price                : <span className="font-bold text-main">{course.price} Tk</span></h1>
                                         <h1 className="flex justify-between">Discount             : <span className="">- {course.discount} Tk</span></h1>
                                         <h1 className="flex justify-between text-[#e2136e] font-bold">Price with discount  : <span className="font-bold text-white p-1 rounded-lg bg-[#e2136e]">{takaNow} Tk</span></h1>
                                     </div>
                                     <div className="mb-4">
+                                        <label htmlFor="phoneNumber" className="block text-gray-700 font-bold mb-2">
+                                            যেই নাম্বার থেকে টাকা পাঠিয়েছেন তা লিখুনঃ
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            id="transactionNumber"
+                                            name="transactionNumber"
+                                            value={billingDetails.transactionNumber}
+                                            onChange={handleChange}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="mb-4">
                                         <label htmlFor="transactionId" className="block text-gray-700 font-bold mb-2">
-                                            Transaction ID
+                                            ট্রাঞ্জেকশন আইডিঃ
                                         </label>
                                         <input
                                             type="text"
