@@ -3,18 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import useAxios from "../../Hooks/UseAxios";
 import UseLoggedUser from "../../Hooks/UseLoggedUser";
 import { AuthContext } from "../../Providers/AuthProvider";
-
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-
-
-
-// import required modules
-import { Navigation } from 'swiper/modules';
 import {
     Accordion,
     AccordionItem,
@@ -23,8 +11,9 @@ import {
     AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import toast from "react-hot-toast";
+
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const LiveCourseDetails = () => {
 
@@ -83,27 +72,32 @@ const LiveCourseDetails = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // console.log('Billing Details:', billingDetails);
-        axiosPublic.post('/live-enroll', billingDetails)
-            .then(res => {
-                console.log(res)
-                if (res.data.result.
-                    insertedId) {
-                    Swal.fire({
-                        title: "Form Is Submitted!",
-                        text: "You Will be contacted by our team in 24 hours",
-                        icon: "success"
-                    });
-                    setBillingDetails(initialBillingDetails);
-                }
-            })
-            .catch(error => {
-                toast.error('Submission Failed');
-                console.error(error);
-            })
-    };
+    // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Send form data to the backend
+      const response = await axios.post('https://secrets-of-learning-server.onrender.com/live-enroll', billingDetails);
+
+      if (response.data.result.insertedId) {
+        Swal.fire({
+          title: "Form Submitted!",
+          text: "You will be contacted by our team in 24 hours.",
+          icon: "success",
+        });
+        // Reset form after submission
+        setBillingDetails(initialBillingDetails);
+      }
+    } catch (error) {
+      console.error('Submission failed:', error);
+      Swal.fire({
+        title: "Submission Failed",
+        text: "Please try again.",
+        icon: "error",
+      });
+    }
+  };
     // console.log(course)
     const handleClickScroll = () => {
         const element = document.getElementById('enroll');
@@ -127,11 +121,12 @@ const LiveCourseDetails = () => {
                         src={course.trailer}
                         type="video/mp4"
                     ></video>
+                    <p className="text-xl text-red font-semibold">**ভর্তির লাস্ট ডেট ৩০ অক্টোবর**</p>
                     <button
                         onClick={handleClickScroll}
                         className="my-5 btn bg-prime text-white text-xl"
                     >
-                        Enroll Now
+                        ভর্তি হতে ক্লিক করুন
                     </button>
                 </div>
 
@@ -233,7 +228,7 @@ const LiveCourseDetails = () => {
                     <div className="card lg:card-side bg-base-100 shadow-xl w-full md:w-11/12 mx-auto p-5">
                         <div className="avatar">
                             <div className="w-80 mx-auto rounded-full">
-                                <img src={course.trainer.image} alt="trainer" />
+                                <img   src={course.trainer.image} alt="trainer" />
                             </div>
                         </div>
                         <div className="card-body">
