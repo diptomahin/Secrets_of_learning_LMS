@@ -84,7 +84,7 @@ const LiveCourseDetails = () => {
       if (response.data.result.insertedId) {
         Swal.fire({
           title: "Form Submitted!",
-          text: "You will be contacted by our team in 24 hours.",
+          text: "ধন্যবাদ! আপনার পেমেন্ট সফল হলে ২৪ ঘন্টার মধ্যে কনফার্মেশন মেসেজ দেওয়া হবে।",
           icon: "success",
         });
         // Reset form after submission
