@@ -29,7 +29,7 @@ const LiveEnrollment = () => {
                 setEnrollment(enrollment.map(item =>
                     item._id === enrollmentId ? { ...item, status: newStatus } : item
                 ));
-                toast.success('Contacted')
+                toast.success(newStatus)
             });
     };
     // console.log(enrollment)
