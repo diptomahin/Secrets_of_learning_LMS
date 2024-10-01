@@ -60,6 +60,7 @@ const LiveCourseDetails = () => {
         transactionNumber: '',
         transactionId: '',
         c_id: id,
+        status: 'not contacted'
     };
 
     const [billingDetails, setBillingDetails] = useState(initialBillingDetails);
@@ -78,7 +79,7 @@ const LiveCourseDetails = () => {
 
     try {
       // Send form data to the backend
-      const response = await axios.post('https://secrets-of-learning-server.onrender.com/live-enroll', billingDetails);
+      const response = await axiosPublic.post('/live-enroll', billingDetails);
 
       if (response.data.result.insertedId) {
         Swal.fire({
@@ -115,12 +116,7 @@ const LiveCourseDetails = () => {
                         {course.short_description}
                     </p>
                     <h1 className="my-5 text-3xl font-bold text-main">{course.title}</h1>
-                    <video
-                        className="mx-auto w-full md:w-8/12 my-5 bg-main p-3 rounded-lg"
-                        controls
-                        src={course.trailer}
-                        type="video/mp4"
-                    ></video>
+                    <iframe className="rounded-lg mx-auto my-5" width="560" height="315" src="https://www.youtube.com/embed/71BorxbGJYY?si=0m6ZtjfQczb4XfE1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     <p className="text-xl text-red font-semibold">**ভর্তির লাস্ট ডেট ৩০ অক্টোবর**</p>
                     <button
                         onClick={handleClickScroll}
