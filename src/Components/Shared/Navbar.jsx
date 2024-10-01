@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from './../../Providers/AuthProvider';
 import UseLoggedUser from "../../Hooks/UseLoggedUser";
+import { CgArrowsExpandDownLeft } from "react-icons/cg";
 
 const Navbar = () => {
 
@@ -14,7 +15,7 @@ const Navbar = () => {
       .catch()
   }
 
-
+ console.log(userData)
   const navLinks =
     <>
       <ul className="menu menu-vertical  lg:menu-horizontal px-1  ">
@@ -93,20 +94,25 @@ const Navbar = () => {
               <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-prime text-white rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                {
-                  userData.role == "admin" ?
+                {userData ? (
+                  userData.role === "admin" ? (
                     <div>
                       <li><Link to={`/admin-dashboard/ad-dashboard`}>Dashboard</Link></li>
                       <li><Link to={`/admin-dashboard/manage-courses`}>Manage Courses</Link></li>
                       <li><Link to={`/admin-dashboard/add-courses`}>Add Courses</Link></li>
                     </div>
-                    :
+                  ) : (
                     <div>
                       <li><Link to={`/student-dashboard/st-dashboard`}>Dashboard</Link></li>
                       <li><Link to={`/student-dashboard/profile`}>Profile</Link></li>
                       <li><Link to={`/student-dashboard/my-courses`}>My Courses</Link></li>
                     </div>
-                }
+                  )
+                ) : (
+                  <div>
+                    <li>Uer Data Loading</li>
+                  </div> // This can also be removed if you don't need to render anything when userData is null or undefined
+                )}
                 <hr />
                 <li onClick={handleSignOut}><a>Logout</a></li>
               </ul>

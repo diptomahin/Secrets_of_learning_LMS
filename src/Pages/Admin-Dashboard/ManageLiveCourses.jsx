@@ -1,6 +1,3 @@
-import React, { useState } from 'react';
-import UseCourses from '../../Hooks/UseCourses';
-import UseUsers from '../../Hooks/UseUsers';
 import { Link } from 'react-router-dom';
 import { FaRegEdit } from 'react-icons/fa';
 import UseLiveCourses from '../../Hooks/UseLivecourses';
@@ -24,7 +21,7 @@ const ManageLiveCourses = () => {
                             alt="Album" />
                         </figure>
                         <div className="card-body">
-                          <h2 className="card-title">{item.title}</h2>
+                          <Link to={`/course/${item._id}`}><h2 className="card-title hover:text-prime">{item.title}</h2></Link>
                           <p>Mentor: {item.trainer.name}</p>
                           <p>{item.short_description}</p>
                           <div className="card-actions justify-end">
