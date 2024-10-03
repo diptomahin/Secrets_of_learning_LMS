@@ -38,7 +38,7 @@ const LiveCourseDetails = () => {
         fetch('https://secrets-of-learning-server.onrender.com/live-courses')
             .then(res => res.json())
             .then(data => {
-                setCourse(data.find(course => course._id == id))
+                setCourse(data.find(course => course.url_id == id))
                 setPrice(course.price)
                 setDiscount(course.discount)
             });
@@ -74,31 +74,31 @@ const LiveCourseDetails = () => {
     };
 
     // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    try {
-      // Send form data to the backend
-      const response = await axiosPublic.post('/live-enroll', billingDetails);
+        try {
+            // Send form data to the backend
+            const response = await axiosPublic.post('/live-enroll', billingDetails);
 
-      if (response.data.result.insertedId) {
-        Swal.fire({
-          title: "Form Submitted!",
-          text: "ধন্যবাদ! আপনার পেমেন্ট সফল হলে ২৪ ঘন্টার মধ্যে কনফার্মেশন মেসেজ দেওয়া হবে।",
-          icon: "success",
-        });
-        // Reset form after submission
-        setBillingDetails(initialBillingDetails);
-      }
-    } catch (error) {
-      console.error('Submission failed:', error);
-      Swal.fire({
-        title: "Submission Failed",
-        text: "Please try again.",
-        icon: "error",
-      });
-    }
-  };
+            if (response.data.result.insertedId) {
+                Swal.fire({
+                    title: "Form Submitted!",
+                    text: "ধন্যবাদ! আপনার পেমেন্ট সফল হলে ২৪ ঘন্টার মধ্যে কনফার্মেশন মেসেজ দেওয়া হবে।",
+                    icon: "success",
+                });
+                // Reset form after submission
+                setBillingDetails(initialBillingDetails);
+            }
+        } catch (error) {
+            console.error('Submission failed:', error);
+            Swal.fire({
+                title: "Submission Failed",
+                text: "Please try again.",
+                icon: "error",
+            });
+        }
+    };
     // console.log(course)
     const handleClickScroll = () => {
         const element = document.getElementById('enroll');
@@ -116,7 +116,7 @@ const LiveCourseDetails = () => {
                         {course.short_description}
                     </p>
                     <h1 className="my-5 text-3xl font-bold text-main">{course.title}</h1>
-                    <iframe className="rounded-lg mx-auto my-5 w-11/12 md:w-7/12" height="350" src="https://www.youtube.com/embed/71BorxbGJYY?si=0m6ZtjfQczb4XfE1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <video className="rounded-lg mx-auto my-5 w-11/12 md:w-7/12" controls src={course.trailer}></video>
                     <p className="text-xl text-red font-semibold">**ভর্তির লাস্ট ডেট ৩০ অক্টোবর**</p>
                     <button
                         onClick={handleClickScroll}
@@ -142,9 +142,9 @@ const LiveCourseDetails = () => {
                 {/* Course Features */}
                 <div className="text-center py-10">
                     <h1 className="text-2xl font-semibold">
-                    এই কোর্সের{" "}
+                        এই কোর্সের{" "}
                         <span className="bg-prime text-white rounded-lg p-1">
-                        ফীচার
+                            ফীচার
                         </span>
                         !!!
                     </h1>
@@ -224,7 +224,7 @@ const LiveCourseDetails = () => {
                     <div className="card lg:card-side bg-base-100 shadow-xl w-full md:w-11/12 mx-auto p-5">
                         <div className="avatar">
                             <div className="w-80 mx-auto rounded-full">
-                                <img   src={course.trainer.image} alt="trainer" />
+                                <img src={course.trainer.image} alt="trainer" />
                             </div>
                         </div>
                         <div className="card-body">
@@ -375,7 +375,7 @@ const LiveCourseDetails = () => {
                     </div>
                     {/* WhatsApp Button */}
                     <a
-                        href={`https://wa.me/+8801963895488?text=Hello! I'm interested in the ${course.title} course.`}
+                        href={`https://wa.me/+8801850002467?text=Hello! I'm interested in the ${course.title} course.`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="fixed bottom-5 right-5 bg-main hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300"
