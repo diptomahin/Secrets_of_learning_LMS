@@ -33,23 +33,18 @@ const LiveCourseDetails = () => {
     const [price, setPrice] = useState();
     const [discount, setDiscount] = useState();
     const [takaNow, setTakaNow] = useState(0);
+    const [courseId , setCourseId] = useState();
 
     useEffect(() => {
         fetch('https://secrets-of-learning-server.onrender.com/live-courses')
             .then(res => res.json())
             .then(data => {
                 setCourse(data.find(course => course.url_id == id))
+                setCourseId(course._id)
                 setPrice(course.price)
                 setDiscount(course.discount)
             });
     }, [id, course]);
-
-
-    useEffect(() => {
-        const disc = parseFloat(discount) / 100
-        const takaSaved = price * disc;
-        setTakaNow(price - takaSaved);
-    }, [discount, price])
 
     const initialBillingDetails = {
         name: '',
@@ -62,6 +57,11 @@ const LiveCourseDetails = () => {
         c_id: id,
         status: 'not contacted'
     };
+    useEffect(() => {
+        const disc = parseFloat(discount) / 100
+        const takaSaved = price * disc;
+        setTakaNow(price - takaSaved);
+    }, [discount, price])
 
     const [billingDetails, setBillingDetails] = useState(initialBillingDetails);
 

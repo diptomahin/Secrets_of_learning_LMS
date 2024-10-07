@@ -5,12 +5,12 @@ import toast from "react-hot-toast";
 const LiveEnrollment = () => {
     const { id } = useParams();
     const [enrollment, setEnrollment] = useState([])
-
+    console.log(enrollment.length)
     useEffect(() => {
         fetch('https://secrets-of-learning-server.onrender.com/live-enroll')
             .then(res => res.json())
             .then(data => {
-                setEnrollment(data.filter(item => item.c_id == id))
+                setEnrollment(data.filter(item => item.c_id == id || item.c_id == 'livecourse_1'))
             });
     }, [id, enrollment]);
 
