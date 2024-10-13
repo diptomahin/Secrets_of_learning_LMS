@@ -117,7 +117,7 @@ const LiveCourseDetails = () => {
                     </p>
                     <h1 className="my-5 text-3xl font-bold text-main">{course.title}</h1>
                     <video className="rounded-lg mx-auto my-5 w-11/12 md:w-7/12" controls src={course.trailer}></video>
-                    <p className="text-xl text-red font-semibold">**ভর্তির লাস্ট ডেট ৩০ অক্টোবর**</p>
+                    <p className="text-xl text-red font-semibold">**ভর্তির লাস্ট ডেট {course.deadline}**</p>
                     <button
                         onClick={handleClickScroll}
                         className="my-5 btn bg-prime text-white text-xl"
