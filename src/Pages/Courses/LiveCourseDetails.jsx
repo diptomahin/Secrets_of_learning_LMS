@@ -33,7 +33,7 @@ const LiveCourseDetails = () => {
     const [price, setPrice] = useState();
     const [discount, setDiscount] = useState();
     const [takaNow, setTakaNow] = useState(0);
-    const [courseId , setCourseId] = useState();
+    const [courseId, setCourseId] = useState();
 
     useEffect(() => {
         fetch('https://secrets-of-learning-server.onrender.com/live-courses')
@@ -128,8 +128,8 @@ const LiveCourseDetails = () => {
 
                 {/* Description */}
                 <div className="text-center my-5 card card-compact bg-base-100 w-full md:w-11/12 mx-auto shadow-xl p-5">
-                    <h1 className="text-2xl font-semibold my-2">
-                        <span className="bg-prime text-white rounded-lg p-1">
+                    <h1 className="text-2xl font-bold my-2">
+                        <span className="">
                             কোর্সটি
                         </span>{" "}
                         কেন করতেই হবে?
@@ -141,9 +141,9 @@ const LiveCourseDetails = () => {
 
                 {/* Course Features */}
                 <div className="text-center py-10">
-                    <h1 className="text-2xl font-semibold">
+                    <h1 className="text-2xl font-bold">
                         এই কোর্সের{" "}
-                        <span className="bg-prime text-white rounded-lg p-1">
+                        <span className="">
                             ফীচার
                         </span>
                         !!!
@@ -169,14 +169,14 @@ const LiveCourseDetails = () => {
 
                 {/* Software Learning */}
                 <div className="text-center py-10 card card-compact bg-base-100 shadow-xl w-full md:w-11/12 mx-auto">
-                    <h1 className="text-2xl font-semibold">
+                    <h1 className="text-2xl font-bold">
                         কী কী{" "}
-                        <span className="bg-prime text-white rounded-lg p-1">
+                        <span className="">
                             সফটওয়্যার
                         </span>{" "}
                         শেখানো হবে
                     </h1>
-                    <div className="flex flex-col gap-3 py-5 text-center w-full md:w-96 mx-auto">
+                    <div className="flex flex-col gap-3 py-5 text-center w-11/12 md:w-96 mx-auto">
                         {course.software.map((item) => (
                             <div key={item.name} className="collapse collapse-arrow bg-base-200 w-full">
                                 <input type="checkbox" className="peer" /> {/* Toggle input */}
@@ -191,32 +191,38 @@ const LiveCourseDetails = () => {
                     </div>
                 </div>
                 <div className="text-center py-10 my-10 card card-compact bg-base-100  shadow-xl w-11/12 mx-auto">
-                    <h1 className="text-2xl font-semibold mb-5">কোর্স <span className="bg-prime text-white rounded-lg p-1">মডিউল</span> !!</h1>
+                    <h1 className="text-2xl font-bold mb-5">কোর্স <span className="">মডিউল</span> !!</h1>
                     <div className="w-11/12 mx-auto">
                         <Accordion allowZeroExpanded>
-                            {
-                                course.whatYoullLearn.map(item =>
-                                    <AccordionItem key={item.topic}>
-                                        <AccordionItemHeading>
-                                            <AccordionItemButton>
-                                                {item.topic}
-                                            </AccordionItemButton>
-                                        </AccordionItemHeading>
-                                        <AccordionItemPanel>
-                                            <p>
-                                                {item.description}
-                                            </p>
-                                        </AccordionItemPanel>
-                                    </AccordionItem>)
-                            }
+                            {course.whatYoullLearn.map((item) => (
+                                <AccordionItem key={item.topic}>
+                                    <AccordionItemHeading>
+                                        <AccordionItemButton>
+                                            {item.topic}
+                                        </AccordionItemButton>
+                                    </AccordionItemHeading>
+                                    <AccordionItemPanel>
+                                        <table className="table-auto w-full border-collapse border border-main mb-4 text-start">
+                                            <tbody>
+                                                {item.description.split('\n').map((classItem, idx) => (
+                                                    <tr key={idx}>
+                                                        <td className="border border-main p-2">{classItem}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </AccordionItemPanel>
+                                </AccordionItem>
+                            ))}
                         </Accordion>
                     </div>
+
                 </div>
                 {/* Mentor Section */}
                 <div className="bg-base-100 shadow-xl p-10 my-10 w-full md:w-11/12 mx-auto">
-                    <h1 className="text-2xl text-center font-semibold mb-5">
+                    <h1 className="text-2xl text-center font-bold mb-5">
                         কোর্স{" "}
-                        <span className="bg-prime text-white rounded-lg p-1">
+                        <span className="">
                             মেন্টর
                         </span>{" "}
                         #
@@ -236,14 +242,14 @@ const LiveCourseDetails = () => {
                 </div>
                 <div>
                     <div className="md:w-11/12 md:mx-auto rounded-lg shadow-lg bg-white">
-                        <div className="text-center py-10">
+                        <div className="w-11/12 mx-auto px-1 rounded-lg text-center py-10 bg-prime text-white">
                             <h1 className="text-2xl font-semibold">ভর্তি হবার নিয়ম</h1>
                             <p className="text-lg">ভর্তি হতে নিচের দেওয়া <span className="font-semibold">বিকাশ/ নগদ</span> নাম্বারে কোর্স ফী <span className="font-bold">Send Money</span> করুন এবং নিচের ফর্মটি ফিলাপ করে দিন।
                             </p>
                             <p className="text-lg">টাকা পাঠানো ও ফর্ম ফিলাপ সাকসেস্ফুল হলে আপনার কাছে মেন্টর নিজে কল করে কনফার্মেশন জানাবেন।</p>
                         </div>
                         <form id="enroll" onSubmit={handleSubmit} className="w-11/12 mx-auto p-4 rounded-lg shadow-lg bg-white  mb-10">
-                            <h2 className="text-2xl font-bold mb-4 text-center">Billing Details</h2>
+                            <h2 className="text-2xl font-bold mb-4 text-center">ভর্তি ফর্ম</h2>
                             <div className="flex justify-evenly flex-col lg:flex-row gap-5 ">
                                 <div>
                                     <div className="mb-4">
@@ -331,9 +337,9 @@ const LiveCourseDetails = () => {
                                         </div>
                                     </div>
                                     <div className="text-lg  font-semibold my-5">
-                                        <h1 className="flex justify-between">Price                : <span className="font-bold text-main">{course.price} Tk</span></h1>
-                                        <h1 className="flex justify-between">Discount             : <span className="">- {course.discount} %</span></h1>
-                                        <h1 className="flex justify-between text-[#e2136e] font-bold">Price with discount  : <span className="font-bold text-white p-1 rounded-lg bg-[#e2136e]">{takaNow} Tk</span></h1>
+                                        <h1 className="flex justify-between">পূর্বের কোর্স ফী               : <span className="font-bold text-main">{course.price} Tk</span></h1>
+                                        <h1 className="flex justify-between">ডিসকাউন্ট              : <span className="">- {course.discount} %</span></h1>
+                                        <h1 className="flex justify-between text-[#e2136e] font-bold">বর্তমান কোর্স ফী    : <span className="font-bold text-white p-1 rounded-lg bg-[#e2136e]">{takaNow} Tk</span></h1>
                                     </div>
                                     <div className="mb-4">
                                         <label htmlFor="phoneNumber" className="block text-gray-700 font-bold mb-2">
