@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { AiFillLike } from "react-icons/ai";
 import toast from "react-hot-toast";
+import { RxCrossCircled } from "react-icons/rx";
+import Swal from "sweetalert2";
+import useAxios from "../../Hooks/UseAxios";
 const LiveEnrollment = () => {
     const { id } = useParams();
     const [enrollment, setEnrollment] = useState([])
-    console.log(enrollment.length)
+    const axiosPublic = useAxios();
+    // console.log(enrollment.length)
     useEffect(() => {
         fetch('https://secrets-of-learning-server.onrender.com/live-enroll')
             .then(res => res.json())
@@ -32,6 +35,44 @@ const LiveEnrollment = () => {
                 toast.success(newStatus)
             });
     };
+
+    const handleDelete = (item) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    // Make sure to await the delete request
+                    const response = await axiosPublic.delete(`/live-enroll/${item._id}`);
+    
+                    if (response.status === 200) {
+                        // Remove the deleted enrollment from state
+                        setEnrollment((enrollment) => enrollment.filter((enrollment) => enrollment._id !== item._id));
+    
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error deleting enrollment:", error);
+                    Swal.fire({
+                        title: "Error!",
+                        text: "There was an error deleting the enrollment.",
+                        icon: "error"
+                    });
+                }
+            }
+        });
+    };
+    
     // console.log(enrollment)
     return (
         <div className="mt-10">
@@ -40,6 +81,7 @@ const LiveEnrollment = () => {
                     {/* head */}
                     <thead>
                         <tr className="text-xl font-semibold">
+                            <th></th>
                             <th>Name</th>
                             <th>Whatsapp</th>
                             <th>Email</th>
@@ -53,6 +95,7 @@ const LiveEnrollment = () => {
                         {/* row 1 */}
                         {
                             enrollment.map(item => <tr className="" key={item._id}>
+                                <td><RxCrossCircled onClick={() => handleDelete(item)} className="text-xl hover:text-prime" /></td>
                                 <td>{item.name}</td>
                                 <td>{item.phoneNumber}</td>
                                 <td>{item.email}</td>
