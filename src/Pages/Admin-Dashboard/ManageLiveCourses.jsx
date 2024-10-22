@@ -26,6 +26,7 @@ const ManageLiveCourses = () => {
                           <p>{item.short_description}</p>
                           <div className="card-actions justify-end">
                             <Link to={`/admin-dashboard/live-courses/${item._id}`}><button className='btn bg-prime text-white'>Enrollment</button></Link>
+                            <Link to={`/admin-dashboard/manage-live-courses/${item._id}`}><button className='btn bg-success text-white'>Add Recorded Video</button></Link>
                             <Link to={`/admin-dashboard/update-live-courses/${item._id}`}><button className="btn btn-primary">Edit Course</button></Link>
                           </div>
                         </div>

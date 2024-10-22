@@ -241,14 +241,14 @@ const LiveCourseDetails = () => {
                     </div>
                 </div>
                 <div>
-                    <div className="md:w-11/12 md:mx-auto rounded-lg shadow-lg bg-white">
+                    <div id="enroll" className="md:w-11/12 md:mx-auto rounded-lg shadow-lg bg-white">
                         <div className="w-11/12 mx-auto px-1 rounded-lg text-center py-10 bg-prime text-white">
                             <h1 className="text-2xl font-semibold">ভর্তি হবার নিয়ম</h1>
                             <p className="text-lg">ভর্তি হতে নিচের দেওয়া <span className="font-semibold">বিকাশ/ নগদ</span> নাম্বারে কোর্স ফী <span className="font-bold">Send Money</span> করুন এবং নিচের ফর্মটি ফিলাপ করে দিন।
                             </p>
                             <p className="text-lg">টাকা পাঠানো ও ফর্ম ফিলাপ সাকসেস্ফুল হলে আপনার কাছে মেন্টর নিজে কল করে কনফার্মেশন জানাবেন।</p>
                         </div>
-                        <form id="enroll" onSubmit={handleSubmit} className="w-11/12 mx-auto p-4 rounded-lg shadow-lg bg-white  mb-10">
+                        <form  onSubmit={handleSubmit} className="w-11/12 mx-auto p-4 rounded-lg shadow-lg bg-white  mb-10">
                             <h2 className="text-2xl font-bold mb-4 text-center">ভর্তি ফর্ম</h2>
                             <div className="flex justify-evenly flex-col lg:flex-row gap-5 ">
                                 <div>
