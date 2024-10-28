@@ -44,6 +44,16 @@ const Admin = () => {
                                 textDecorationThickness: isActive ? '2px' : 'none',
                             };
                         }}>Dashboard</NavLink></li>
+                        <li className="my-3"><NavLink to='/admin-dashboard/home-banner' style={({ isActive }) => {
+                            return {
+                                color: isActive ? "white" : "white",
+                                backgroundColor: isActive ? "inherit" : "inherit",
+                                textDecoration: isActive ? 'underline' : "none",
+                                textUnderlineOffset: isActive ? '10px' : 'none',
+                                textDecorationColor: isActive ? '#f02d00' : 'none',
+                                textDecorationThickness: isActive ? '2px' : 'none',
+                            };
+                        }}>Banner</NavLink></li>
                         <li className="my-3"><NavLink to='/admin-dashboard/manage-courses' style={({ isActive }) => {
                             return {
                                 color: isActive ? "white" : "white",

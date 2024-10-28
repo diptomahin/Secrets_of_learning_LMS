@@ -60,7 +60,7 @@ const UpdateProfile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        axiosPublic.put(`https://secrets-of-learning-server.onrender.com/all-users/${userData._id}`, formData)
+        axiosPublic.put(`http://82.112.227.89:5000/all-users/${userData._id}`, formData)
         .then(res => {
             if (res.data.modifiedCount>0) {
                 console.log('user info updated to the database')

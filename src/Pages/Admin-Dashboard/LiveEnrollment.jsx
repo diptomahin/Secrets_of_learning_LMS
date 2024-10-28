@@ -5,21 +5,22 @@ import { RxCrossCircled } from "react-icons/rx";
 import Swal from "sweetalert2";
 import useAxios from "../../Hooks/UseAxios";
 const LiveEnrollment = () => {
-    const { id } = useParams();
+    const { id, url_id } = useParams();
+    console.log(id, url_id)
     const [enrollment, setEnrollment] = useState([])
     const axiosPublic = useAxios();
     // console.log(enrollment.length)
     useEffect(() => {
-        fetch('https://secrets-of-learning-server.onrender.com/live-enroll')
+        fetch('http://82.112.227.89:5000/live-enroll')
             .then(res => res.json())
             .then(data => {
-                setEnrollment(data.filter(item => item.c_id == id || item.c_id == 'livecourse_1'))
+                setEnrollment(data.filter(item => item.c_id == id || item.c_id == url_id))
             });
     }, [id, enrollment]);
 
     // Update Status function
     const updateStatus = (enrollmentId, newStatus) => {
-        fetch(`https://secrets-of-learning-server.onrender.com/live-enroll/${enrollmentId}`, {
+        fetch(`http://82.112.227.89:5000/live-enroll/${enrollmentId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

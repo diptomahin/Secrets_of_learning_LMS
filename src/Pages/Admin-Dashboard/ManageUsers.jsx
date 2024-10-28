@@ -1,47 +1,86 @@
 import React, { useEffect, useState } from 'react';
 import UseCourses from '../../Hooks/UseCourses';
 import UseUsers from '../../Hooks/UseUsers';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import UseLiveCourses from '../../Hooks/UseLivecourses';
+import toast from 'react-hot-toast';
+import axios from 'axios'; // Ensure axios is imported
 const ManageUsers = () => {
-
+    const navigate = useNavigate();
     const { allCourses } = UseCourses();
-    const { allUser } = UseUsers();
+    const { liveCourses } = UseLiveCourses();
+    const { allUser, refetchAllUserData } = UseUsers();
     const [students, setStudents] = useState([]);
     const [admin, setAdmin] = useState([]);
     const [Enrolled, setEnrolled] = useState([]);
+    const [live, setLive] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredUsers, setFilteredUsers] = useState(allUser); // State to hold filtered users
+
 
     useEffect(() => {
         setStudents(allUser.filter(user => user.Enrolled.length > 0 && user.role == "student"))
         setAdmin(allUser.filter(user => user.role == "admin"))
     }, [allUser])
 
+    useEffect(() => {
+        // Filter users by email based on searchTerm
+        if (searchTerm) {
+            setFilteredUsers(allUser.filter(user => user.email.toLowerCase().includes(searchTerm.toLowerCase())));
+        } else {
+            setFilteredUsers(allUser); // Show all users if searchTerm is empty
+        }
+    }, [searchTerm, allUser]); // Rerun the filter when searchTerm or allUser changes
+
     const handleEnrolled = (enrolled) => {
-        const Filter = (allCourses.filter(course => enrolled.some(enrolledCourse => enrolledCourse.courseId === course._id)))
-
+        const Filter = (allCourses.filter(course => enrolled.some(enrolledCourse => enrolledCourse.courseId === course._id)))      
         setEnrolled(Filter);
-
         return Filter;
 
     }
 
+    const handleLive = (live) => {
+        const filter = (liveCourses.filter(course => live.some(enrolledCourse => enrolledCourse.courseId === course._id)))
+        setLive(filter);  
+
+    }
+
+    //handle manual enroolment
+    const handleAddCourse = (course, userId) => {
+
+        const courseId = course._id;
+        console.log(course, userId)
+        axios.put(`http://82.112.227.89:5000/all-users/${userId}/live_enroll`, { courseId })
+            .then(res => {
+                if (res.data.result.acknowledged == true) {
+                    console.log('User enrolled in the course successfully');
+                    toast.success('Successfully added');
+                    refetchAllUserData();
+                    navigate()
+                }
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+
+    }
     return (
         <div className='mt-10'>
             <div className='my-3'>
                 <h1 className='text-2xl font-bold text-prime'>Manage Users</h1>
-                {/* <details className="dropdown">
-                    <summary className="btn m-1">Sort</summary>
-                    <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                        <li onClick={setDisplayUsers(allUser)}><a>All Users</a></li>
-                        <li onClick={setDisplayUsers(students)}><a>Students</a></li>
-                        <li onClick={setDisplayUsers(admin)}><a>Admin</a></li>
-                    </ul>
-                </details> */}
+                 {/* Search Input */}
+                 <input
+                    type="text"
+                    placeholder="Search by email..."
+                    className="input input-bordered w-full mb-4"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
             </div>
             <hr style={{ border: 'none', height: '3px', backgroundColor: 'black' }} />
             <div className='grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-5 my-5'>
                 {
-                    allUser.map(user => <div key={user._id} className="card bg-base-100 w-60 shadow-xl border-2 border-main">
+                    filteredUsers.map(user => <div key={user._id} className="card bg-base-100 w-60 shadow-xl border-2 border-main">
                         <div className="avatar mt-1">
                             <div className="w-24 rounded-xl mx-auto border-2 border-main">
                                 <img src={user?.photoURL} />
@@ -51,8 +90,8 @@ const ManageUsers = () => {
                             <h2 className="card-title">{user.displayName}</h2>
                             <p><strong>Role: </strong> <span>{user.role}</span></p>
                             <div className=" flex flex-row gap-2 ">
-                                <button onClick={() => document.getElementById('my_modal_1').showModal()} className="btn bg-prime text-white">Details</button>
-                                <dialog id="my_modal_1" className="modal">
+                                <button onClick={() => document.getElementById(`my_modal_${user._id}`).showModal()} className="btn bg-prime text-white">Details</button>
+                                <dialog id={`my_modal_${user._id}`} className="modal">
                                     <div className="modal-box">
                                         <div className="avatar mt-1">
                                             <div className="w-24 rounded-xl mx-auto border-2 border-main">
@@ -90,7 +129,7 @@ const ManageUsers = () => {
                                             Enrolled.length > 0 ?
                                                 Enrolled.map(course =>
                                                     <div key={course._id} className="card card-side bg-base-100 shadow-xl my-3">
-                                                        <iframe className="rounded-lg w-2/5"  src="https://www.youtube.com/embed/SlYcqjhoGzM?si=FTaWxa7xKnr_5JyJ" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" ></iframe>
+                                                        
                                                         <div className="card-body">
                                                             <Link to={`/courses/${course._id}`}>
                                                             <h2 className="card-title hover:text-prime">{course.title}</h2></Link>
@@ -100,14 +139,77 @@ const ManageUsers = () => {
                                                 )
                                                 :
                                                 <div>
-                                                    <span className="loading loading-spinner text-primary"></span>
-                                                    <span className="loading loading-spinner text-secondary"></span>
-                                                    <span className="loading loading-spinner text-accent"></span>
-                                                    <span className="loading loading-spinner text-neutral"></span>
-                                                    <span className="loading loading-spinner text-info"></span>
-                                                    <span className="loading loading-spinner text-success"></span>
-                                                    <span className="loading loading-spinner text-warning"></span>
-                                                    <span className="loading loading-spinner text-error"></span>
+                                                    <h1>No Courses Enrolled</h1>
+                                                </div>
+                                        }
+                                        <div className="modal-action">
+                                            <form method="dialog">
+                                                {/* if there is a button in form, it will close the modal */}
+                                                <button className="btn">Close</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </dialog>
+                            </div>
+                            <div className='flex flex-row gap-2'>
+                            <button 
+                            onClick={() => {
+                                handleLive(user.live_enroll);  // First function call
+                                document.getElementById('my_modal_3').showModal();  // Second function call
+                            }}
+                            className='bg-success btn'>live({user.live_enroll.length})</button>
+                            <dialog id="my_modal_3" className="modal">
+                                    <div className="modal-box">
+                                        <h1 className='text-lg font-semibold text-center'>Enrolled Courses</h1>
+                                        <hr style={{ border: 'none', height: '2px', backgroundColor: 'black' }} />
+                                        {
+                                            live.length > 0 ?
+                                                live.map(course =>
+                                                    <div key={course._id} className="card card-side bg-base-100 shadow-xl my-3">
+                                                        
+                                                        <div className="card-body">
+                                                            <Link to={`/courses/${course._id}`}>
+                                                            <h2 className="card-title hover:text-prime">{course.title}</h2></Link>
+                                                            <p>{course.short_description}</p>
+                                                        </div>
+                                                    </div>
+                                                )
+                                                :
+                                                <div>
+                                                    <h1>No Courses Enrolled</h1>
+                                                </div>
+                                        }
+                                        <div className="modal-action">
+                                            <form method="dialog">
+                                                {/* if there is a button in form, it will close the modal */}
+                                                <button className="btn">Close</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </dialog>
+                            
+                            <button onClick={() => {
+                                    document.getElementById(`my_modal_${user.email}`).showModal();}} className='bg-main p-2 rounded text-white'>Add Live</button>
+
+                            <dialog id={`my_modal_${user.email}`} className="modal">
+                                    <div className="modal-box">
+                                        <h1 className='text-lg font-semibold text-center'>Enroll To Courses</h1>
+                                        <hr style={{ border: 'none', height: '2px', backgroundColor: 'black' }} />
+                                        {
+                                            liveCourses.length > 0 ?
+                                            liveCourses.map(course =>
+                                                    <div key={course._id} className="card card-side bg-base-100 shadow-xl my-3">
+                                                        
+                                                        <div className="card-body">
+                                                            <h2 className="card-title hover:text-prime">{course.title}</h2>
+                                                            <p>{course.short_description}</p>
+                                                            <button onClick={() => handleAddCourse(course , user._id)} className='btn bg-success'>Add Course</button>
+                                                        </div>
+                                                    </div>
+                                                )
+                                                :
+                                                <div>
+                                                    <h1>No Courses Enrolled</h1>
                                                 </div>
                                         }
                                         <div className="modal-action">

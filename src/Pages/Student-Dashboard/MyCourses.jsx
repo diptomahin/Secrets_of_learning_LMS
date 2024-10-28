@@ -11,7 +11,7 @@ const MyCourses = () => {
 
   useEffect(() => {
     if (userData?.Enrolled && userData.Enrolled.length > 0) {
-      fetch('https://secrets-of-learning-server.onrender.com/all-courses')
+      fetch('http://82.112.227.89:5000/all-courses')
         .then(res => res.json())
         .then(data => {
           const filteredCourses = data.filter(course =>

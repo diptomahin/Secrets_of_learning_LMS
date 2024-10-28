@@ -15,7 +15,7 @@ const Navbar = () => {
       .catch()
   }
 
- console.log(userData)
+//  console.log(userData)
   const navLinks =
     <>
       <ul className="menu menu-vertical  lg:menu-horizontal px-1  ">

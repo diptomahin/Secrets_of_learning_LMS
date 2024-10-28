@@ -31,7 +31,7 @@ const CourseDetails = () => {
     const [takaNow, setTakaNow] = useState(0);
 
     useEffect(() => {
-        fetch('https://secrets-of-learning-server.onrender.com/all-courses')
+        fetch('http://82.112.227.89:5000/all-courses')
             .then(res => res.json())
             .then(data => {
                 setCourse(data.find(course => course._id == id))
@@ -62,12 +62,12 @@ const CourseDetails = () => {
 
         const courseId = course._id;
 
-        axiosPublic.put(`https://secrets-of-learning-server.onrender.com/all-users/${userData._id}/enrolled`, { courseId })
+        axiosPublic.put(`http://82.112.227.89:5000/all-users/${userData._id}/enrolled`, { courseId })
             .then(res => {
                 if (res.data.result.acknowledged == true) {
                     console.log('User enrolled in the course successfully');
                     toast.success('Successfully Enrolled');
-                    navigate('/');
+                    navigate('/admin-dashboard/manage-users');
                 }
             })
             .catch((error) => {

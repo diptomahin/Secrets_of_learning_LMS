@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const HomeCourses = () => {
     const [courses, setCourses] = useState([])
     useEffect(() => {
-        fetch('https://secrets-of-learning-server.onrender.com/all-courses')
+        fetch('http://82.112.227.89:5000/all-courses')
             .then(res => res.json())
             .then(data => setCourses(data));
     }, []);

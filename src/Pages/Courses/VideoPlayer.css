@@ -1,0 +1,25 @@
+.user-id {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    padding: 8px 12px;
+    border-radius: 5px;
+    white-space: nowrap; /* Prevent text wrapping */
+    /* Optional: Add some box-shadow for better visibility */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0); /* Start at original position */
+    }
+    25% {
+        transform: translateY(-10px); /* Move up */
+    }
+    50% {
+        transform: translateY(10px); /* Move down */
+    }
+    75% {
+        transform: translateY(-5px); /* Slightly move up again */
+    }
+}

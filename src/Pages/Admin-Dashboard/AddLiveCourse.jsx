@@ -10,6 +10,7 @@ const AddLiveCourses = () => {
   const [loading, setLoading] = useState(false);
   const [courseData, setCourseData] = useState({
     title: '',
+    url_id:'',
     trainer: {
       name: '',
       designation: '',
@@ -23,7 +24,7 @@ const AddLiveCourses = () => {
     price: '',
     discount: '',
     status: 'Unavailable',
-    course_type: 'live',  
+    course_type: 'live',
     students: '',
     reviews: '',
     positive_ratings: '',
@@ -31,6 +32,7 @@ const AddLiveCourses = () => {
     courseFeatures: [{ feature: '', description: '' }],
     software: [{ name: '', description: '' }]
   });
+
 
   // Imgbb API Key
   const imgbbAPIKey = "9b00e5928e6cb63a96541485f6f339eb";
@@ -142,27 +144,20 @@ const AddLiveCourses = () => {
       software: updatedSoftware,
     });
   };
-
-  // Cloudinary Video Upload for Trailer
+  // Video Upload for Trailer to Backend
   const handleTrailerUpload = async (file) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'video_preset'); // Change to your actual preset
 
     try {
       setLoading(true);
-      const cloudName = import.meta.env.VITE_cloudinaryCloudeName;
-      const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-      const videoUrl = res.data.secure_url;
-      setCourseData({ ...courseData, trailer: videoUrl });
+      const response = await axios.post('http://82.112.227.89:5000/upload-video', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      const { url } = response.data; // Assuming your backend returns the URL
+      setCourseData({ ...courseData, trailer: url });
       toast.success('Trailer Uploaded Successfully');
       setLoading(false);
     } catch (error) {
@@ -183,8 +178,17 @@ const AddLiveCourses = () => {
     axiosPublic.post('/live-courses', courseData)
       .then(res => {
         if (res.data.insertedId) {
-          toast.success('Course added successfully');
-          navigate('/admin-dashboard/manage-courses');
+          const liveRecords = {
+            courseId: res.data.insertedId,
+            modules: [{ name: "", classes: [{ name: "", video: "" }] }]
+          }
+          axiosPublic.post('/live-records', liveRecords)
+            .then(res => {
+              if (res.data.insertedId) {
+                toast.success('Course added successfully');
+                navigate('/admin-dashboard/manage-live-courses');
+              }
+            })
         }
       })
       .catch(error => {
@@ -207,6 +211,18 @@ const AddLiveCourses = () => {
               type="text"
               name="title"
               value={courseData.title}
+              onChange={handleChange}
+              className="mt-1 block w-full p-2 border border-gray-300 rounded"
+              required
+            />
+          </div>
+          {/* url_id */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium">url_id <span className="text-red">Must be unique</span></label>
+            <input
+              type="text"
+              name="url_id"
+              value={courseData.url_id}
               onChange={handleChange}
               className="mt-1 block w-full p-2 border border-gray-300 rounded"
               required

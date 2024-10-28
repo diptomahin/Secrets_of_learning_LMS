@@ -55,8 +55,9 @@ const Login = () => {
                         username: loggedUser.email,
                         password: "Logged in with google",
                         Enrolled: [],
+                        live_enroll:[],
                     };
-                    axiosPublic.post('https://secrets-of-learning-server.onrender.com/all-users', userInfo)
+                    axiosPublic.post('http://82.112.227.89:5000/all-users', userInfo)
                     .then(res => {
                         if (res.data.insertedId) {
                             console.log('user added to the database')

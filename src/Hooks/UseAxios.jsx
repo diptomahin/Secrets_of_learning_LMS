@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-    baseURL: 'https://secrets-of-learning-server.onrender.com'
+    baseURL: 'http://82.112.227.89:5000'
 })
 
 const useAxios = () => {
