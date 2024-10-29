@@ -1,10 +1,12 @@
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { TiThMenu } from "react-icons/ti";
 
 const Student = () => {
 
     const { user, logOut } = useContext(AuthContext);
+    const [nav, setNav] = useState(true);
 
     const handleSignOut = () => {
         logOut()
@@ -12,15 +14,23 @@ const Student = () => {
             .catch()
     }
 
+    const handleNav = () => {
+        setNav(!nav)
+        console.log(nav)
+    }
     return (
         <div>
             <div className="navbar px-5 shadow-lg bg-main h-[60px] fixed z-10">
+                <div>
+                    <TiThMenu className="text-white text-2xl ml-10" onClick={handleNav} />
+                </div>
                 <div className="mx-auto">
                     <Link to={'/'}><img className="w-[150px]" src={'https://i.ibb.co/FKZd3SG/Learn-Fuji-Yama-Logo-1.png'} /></Link>
                 </div>
             </div>
             <div className="flex">
-                <div className="w-40 min-h-screen bg-main pt-10">
+                {
+                    nav ? <div className="w-40 min-h-screen bg-main pt-10">
                     <ul className="menu p-4 mt-10">
                         <>
                             <li className="my-3"><NavLink to='/student-dashboard/st-dashboard' style={({ isActive }) => {
@@ -43,6 +53,16 @@ const Student = () => {
                                     textDecorationThickness: isActive ? '2px' : 'none',
                                 };
                             }}>My Courses</NavLink></li>
+                            <li className="my-3"><NavLink to='/student-dashboard/live-courses' style={({ isActive }) => {
+                                return {
+                                    color: isActive ? "white" : "white",
+                                    backgroundColor: isActive ? "inherit" : "inherit",
+                                    textDecoration: isActive ? 'underline' : "none",
+                                    textUnderlineOffset: isActive ? '10px' : 'none',
+                                    textDecorationColor: isActive ? '#f02d00' : 'none',
+                                    textDecorationThickness: isActive ? '2px' : 'none',
+                                };
+                            }}>Live Courses</NavLink></li>
                             <li className="my-3"><NavLink to='/student-dashboard/profile' style={({ isActive }) => {
                                 return {
                                     color: isActive ? "white" : "white",
@@ -80,7 +100,8 @@ const Student = () => {
                             }}>Logout</NavLink></li>
                         </>
                     </ul>
-                </div>
+                </div> : <div className="hidden"></div>
+                }
                 <div></div>
                 <div className="flex-1 p-8">
                     <Outlet></Outlet>

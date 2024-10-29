@@ -33,6 +33,7 @@ import ManageLiveCourses from "../Pages/Admin-Dashboard/ManageLiveCourses";
 import AddLiveRecord from "../Pages/Admin-Dashboard/AddLiveRecord";
 import Watch_live from './../Pages/Courses/Watch_live';
 import ManageBanner from "../Pages/Admin-Dashboard/ManageBanner";
+import LiveCourses from "../Pages/Student-Dashboard/LiveCourses";
 
 const router = createBrowserRouter([
     {
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
           {
             path: '/student-dashboard/my-courses',
             element: <StudentRoute><MyCourses /></StudentRoute>
+          },
+          {
+            path: '/student-dashboard/live-courses',
+            element: <StudentRoute><LiveCourses /></StudentRoute>
           },
           {
             path: '/student-dashboard/profile',

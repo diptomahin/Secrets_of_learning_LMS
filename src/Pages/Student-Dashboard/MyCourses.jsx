@@ -21,7 +21,7 @@ const MyCourses = () => {
         });
     }
   }, [userData]);
-  console.log(enrolledCourses)
+  // console.log(enrolledCourses)
 
   if (userDataLoading) {
     return <div>Loading...</div>;
