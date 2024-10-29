@@ -48,12 +48,12 @@ const ManageBanner = () => {
             setUploading(true); // Set uploading state
 
             // Delete the existing video if it exists
-            // if (existingVideoUrl) {
-            //     await axios.delete('https://api.ishaan.website/delete-video', {
-            //         data: { url: existingVideoUrl },
-            //     });
-            //     toast.success('Old video replaced');
-            // }
+            if (existingVideoUrl) {
+                await axios.delete('https://api.ishaan.website/delete-video', {
+                    data: { url: existingVideoUrl },
+                });
+                toast.success('Old video replaced');
+            }
 
             const response = await axios.post('https://api.ishaan.website/upload-video', formData, {
                 headers: {
