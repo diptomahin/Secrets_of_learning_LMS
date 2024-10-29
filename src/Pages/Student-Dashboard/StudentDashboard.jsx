@@ -8,7 +8,7 @@ const StudentDashboard = () => {
     const {userData, userDataLoading, refetchUserData} = UseLoggedUser();
     const [courses, setCourses] = useState([]);
     useEffect(() => {
-        fetch('http://82.112.227.89:5000/all-courses')
+        fetch('https://api.ishaan.website/all-courses')
             .then(res => res.json())
             .then(data => setCourses(data));
     }, []);

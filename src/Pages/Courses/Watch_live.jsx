@@ -22,7 +22,7 @@ const Watch_live = () => {
     const [videoTitle, setVideoTitle] = useState('Course Start');
     const [video, setVideo] = useState('');
     useEffect(() => {
-        fetch(`http://82.112.227.89:5000/live-records`)
+        fetch(`https://api.ishaan.website/live-records`)
             .then(res => res.json())
             .then(data => {
                 setModules(data.find(course => course.courseId == id));
@@ -76,7 +76,7 @@ const Watch_live = () => {
                                     <video
                                         controls
                                         className="w-11/12 rounded-lg shadow-md"
-                                        src={`http://82.112.227.89:5000${video}`}
+                                        src={`https://api.ishaan.website${video}`}
                                         alt="Course Video"
                                     />
                                     <div className="bouncing-overlay " style={{ top: 30, left: 30 }}>

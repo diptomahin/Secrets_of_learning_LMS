@@ -16,7 +16,7 @@ const ManageLiveCourses = () => {
                           <video
                           className=''
                           controls
-                            src={`http://82.112.227.89:5000${item.trailer}`}
+                            src={`https://api.ishaan.website${item.trailer}`}
                             type="video/mp4"
                             alt="Album" />
                         </figure>

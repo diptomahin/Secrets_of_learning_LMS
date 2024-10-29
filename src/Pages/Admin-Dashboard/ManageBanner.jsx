@@ -16,7 +16,7 @@ const ManageBanner = () => {
     useEffect(() => {
         const fetchBanner = async () => {
             try {
-                const response = await fetch(`http://82.112.227.89:5000/home-banner`);
+                const response = await fetch(`https://api.ishaan.website/home-banner`);
                 const data = await response.json();
                 const foundBanner = data.find(b => b._id === id);
                 setBanner(foundBanner || { title: '', description: '', video: '' });
@@ -49,13 +49,13 @@ const ManageBanner = () => {
 
             // Delete the existing video if it exists
             // if (existingVideoUrl) {
-            //     await axios.delete('http://82.112.227.89:5000/delete-video', {
+            //     await axios.delete('https://api.ishaan.website/delete-video', {
             //         data: { url: existingVideoUrl },
             //     });
             //     toast.success('Old video replaced');
             // }
 
-            const response = await axios.post('http://82.112.227.89:5000/upload-video', formData, {
+            const response = await axios.post('https://api.ishaan.website/upload-video', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -76,7 +76,7 @@ const ManageBanner = () => {
         e.preventDefault();
         try {
             const response = await axios.put(
-                `http://82.112.227.89:5000/home-banner/${id}`,
+                `https://api.ishaan.website/home-banner/${id}`,
                 banner,
                 {
                     headers: {
