@@ -1,0 +1,10 @@
+/* styles.css */
+.center-nav {
+    display: none; /* Hidden by default */
+  }
+  
+  @media (min-width: 1024px) { /* lg breakpoint (1024px and above) */
+    .center-nav {
+      display: flex; /* Show as flex on large screens */
+    }
+  }

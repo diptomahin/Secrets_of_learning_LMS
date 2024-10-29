@@ -15,7 +15,7 @@ const Banner = () => {
 
     return (
         <div className="bg-main pt-20  h-screen">
-            <div className=" w-11/12 mx-auto  items-center h-full py-2 md:py-5 lg:py-5">
+            <div className=" w-11/12 mx-auto  items-center h-full pb-10">
                 <div className="text-white h-1/2 lg:h-1/4  text-center">
                     <div className="mb-5">
                     <h1 className="text-4xl font-bold">{banner.title}</h1>

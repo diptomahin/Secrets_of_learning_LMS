@@ -1,10 +1,17 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from './../../Providers/AuthProvider';
 import UseLoggedUser from "../../Hooks/UseLoggedUser";
-import { CgArrowsExpandDownLeft } from "react-icons/cg";
+import { TiThMenu } from "react-icons/ti";
+import './styles.css';
 
 const Navbar = () => {
+  
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State to track dropdown visibility
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev); // Toggle the dropdown state
+  };
 
   const { user, logOut } = useContext(AuthContext);
   const { userData, userDataLoading, refetchUserData } = UseLoggedUser();
@@ -18,8 +25,7 @@ const Navbar = () => {
 //  console.log(userData)
   const navLinks =
     <>
-      <ul className="menu menu-vertical  lg:menu-horizontal px-1  ">
-        <ul className="menu menu-horizontal px-1">
+      <ul className=" flex flex-row px-1">
           <li><NavLink className=" font-semibold text-sm lg:text-lg" style={({ isActive }) => {
             return {
               color: isActive ? "white" : "white",
@@ -31,7 +37,7 @@ const Navbar = () => {
             };
           }} to="/"
           ><span className="hover:text-prime">Home</span></NavLink></li>
-          <li><NavLink className=" font-semibold text-sm lg:text-lg" style={({ isActive }) => {
+          <li><NavLink className=" font-semibold text-xs lg:text-lg" style={({ isActive }) => {
             return {
               color: isActive ? "white" : "white",
               backgroundColor: isActive ? "inherit" : "inherit",
@@ -65,14 +71,33 @@ const Navbar = () => {
           }} to="/contact"
           ><span className="hover:text-prime">Contact</span></NavLink></li>
         </ul>
-      </ul>
     </>
   return (
-    <div className="navbar px-5 shadow-lg bg-main h-[60px] fixed z-10">
+    <div className="navbar lg:px-5 shadow-lg bg-main h-[60px] fixed z-10">
+      <div className="dropdown">
+          {/* Button to toggle dropdown menu */}
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden" onClick={toggleDropdown}>
+        <TiThMenu className="text-white text-2xl" />
+      </div>
+
+      {/* Dropdown menu */}
+      {isDropdownOpen && ( // Only show the dropdown if isDropdownOpen is true
+        <ul
+          tabIndex={0}
+          className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+          onClick={() => setIsDropdownOpen(false)} // Close dropdown when clicking a link
+        >
+          <li className="hover:bg-prime hover:text-white hover:rounded-lg"><Link to='/'>Home</Link></li>
+          <li className="hover:bg-prime hover:text-white hover:rounded-lg"><Link to='/courses'>Courses</Link></li>
+          <li className="hover:bg-prime hover:text-white hover:rounded-lg"><Link to='/about'>About</Link></li>
+          <li className="hover:bg-prime hover:text-white hover:rounded-lg"><Link to='/contact'>Contact</Link></li>
+        </ul>
+      )}
+    </div>
       <div className="navbar-start">
         <Link to={'/'}><img className="w-[150px]" src={'https://i.ibb.co/FKZd3SG/Learn-Fuji-Yama-Logo-1.png'} /></Link>
       </div>
-      <div className="navbar-center flex ">
+      <div className=" center-nav ">
         <ul className="menu menu-horizontal ">
           {
             navLinks
