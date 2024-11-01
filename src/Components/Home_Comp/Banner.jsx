@@ -28,6 +28,7 @@ const Banner = () => {
                 <video
                 className="rounded-lg w-full h-full" 
                 controls
+                controlsList="nodownload"
                 src={`https://api.ishaan.website${banner.video}`}>
                 </video>
                 </div>

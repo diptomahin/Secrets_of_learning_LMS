@@ -313,6 +313,7 @@ const AddLiveRecord = () => {
                                             <div className="mb-2">
                                                 <video
                                                     controls
+                                                    
                                                     className='w-1/2'
                                                     src={`https://api.ishaan.website${classItem.video}`}></video>
                                             </div>

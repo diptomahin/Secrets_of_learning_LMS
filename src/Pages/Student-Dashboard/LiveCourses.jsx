@@ -24,27 +24,28 @@ const LiveCourses = () => {
 
     return (
         <div className="py-20">
-           <div className='grid grid-cols-1 lg:gird-cols-2 gap-5'>
+            <div className='grid grid-cols-1 lg:gird-cols-2 gap-5'>
                 {
-                    enrolledCourses.map(item=>
+                    enrolledCourses.map(item =>
                         <div key={item._id} className="card grid grid-cols-1 lg:grid-cols-2  bg-base-100 shadow-xl">
-                        <figure>
-                          <video
-                          className=''
-                          controls
-                            src={`https://api.ishaan.website${item.trailer}`}
-                            type="video/mp4"
-                            alt="Album" />
-                        </figure>
-                        <div className="card-body">
-                          <Link to={`/course/${item.url_id}`}><h2 className="card-title hover:text-prime">{item.title}</h2></Link>
-                          <p>Mentor: {item.trainer.name}</p>
-                          <p>{item.short_description}</p>
-                          <div className="card-actions justify-end">
-                          <Link to={`/watch-live/${item._id}/${item.title}`}><button className='bg-success text-white btn'>Watch Course</button></Link>
-                          </div>
-                        </div>
-                      </div>)
+                            <figure>
+                                <video
+                                    className=''
+                                    controls
+                                    controlsList="nodownload"
+                                    src={`https://api.ishaan.website${item.trailer}`}
+                                    type="video/mp4"
+                                    alt="Album" />
+                            </figure>
+                            <div className="card-body">
+                                <Link to={`/course/${item.url_id}`}><h2 className="card-title hover:text-prime">{item.title}</h2></Link>
+                                <p>Mentor: {item.trainer.name}</p>
+                                <p>{item.short_description}</p>
+                                <div className="card-actions justify-end">
+                                    <Link to={`/watch-live/${item._id}/${item.title}`}><button className='bg-success text-white btn'>Watch Course</button></Link>
+                                </div>
+                            </div>
+                        </div>)
                 }
             </div>
         </div>

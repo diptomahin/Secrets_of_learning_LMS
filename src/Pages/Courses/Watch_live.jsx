@@ -75,12 +75,15 @@ const Watch_live = () => {
                                 <div className="relative">
                                     <video
                                         controls
+                                        controlsList="nodownload"
                                         className="w-11/12 rounded-lg shadow-md"
                                         src={`https://api.ishaan.website${video}`}
                                         alt="Course Video"
                                     />
                                     <div className="bouncing-overlay " style={{ top: 30, left: 30 }}>
-                                        {`User ID: ${userData._id} | Email: ${userData.email}`}
+                                        <h1 className="text-center text-sm">
+                                        {`Name: ${userData.displayName}|Phone: ${userData.phone}`} <br /> {`Email: ${userData.email}`}
+                                        </h1>
                                     </div>
                                 </div>
                             </div>

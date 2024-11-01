@@ -52,7 +52,7 @@ const Student = () => {
                                     textDecorationColor: isActive ? '#f02d00' : 'none',
                                     textDecorationThickness: isActive ? '2px' : 'none',
                                 };
-                            }}>My Courses</NavLink></li>
+                            }}>Pre-recorded Courses</NavLink></li>
                             <li className="my-3"><NavLink to='/student-dashboard/live-courses' style={({ isActive }) => {
                                 return {
                                     color: isActive ? "white" : "white",
