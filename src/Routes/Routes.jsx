@@ -34,6 +34,7 @@ import AddLiveRecord from "../Pages/Admin-Dashboard/AddLiveRecord";
 import Watch_live from './../Pages/Courses/Watch_live';
 import ManageBanner from "../Pages/Admin-Dashboard/ManageBanner";
 import LiveCourses from "../Pages/Student-Dashboard/LiveCourses";
+import PrivetRoute from "./PrivetRoute";
 
 const router = createBrowserRouter([
     {
@@ -74,7 +75,7 @@ const router = createBrowserRouter([
         },
         {
             path: "/watch-live/:id/:title",
-            element:<Watch_live></Watch_live>,
+            element:<PrivetRoute><Watch_live></Watch_live></PrivetRoute>,
         },
       ]
     },
