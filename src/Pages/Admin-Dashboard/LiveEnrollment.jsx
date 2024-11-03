@@ -11,7 +11,7 @@ const LiveEnrollment = () => {
     const axiosPublic = useAxios();
     // console.log(enrollment.length)
     useEffect(() => {
-        fetch('http://localhost:5000/live-enroll')
+        fetch('https://api.ishaan.website/live-enroll')
             .then(res => res.json())
             .then(data => {
                 setEnrollment(data.filter(item => item.c_id == id || item.c_id == url_id))
@@ -20,7 +20,7 @@ const LiveEnrollment = () => {
 
     // Update Status function
     const updateStatus = (enrollmentId, newStatus) => {
-        fetch(`http://localhost:5000/live-enroll/${enrollmentId}`, {
+        fetch(`https://api.ishaan.website/live-enroll/${enrollmentId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

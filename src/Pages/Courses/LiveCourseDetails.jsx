@@ -36,7 +36,7 @@ const LiveCourseDetails = () => {
     const [courseId, setCourseId] = useState();
 
     useEffect(() => {
-        fetch('http://localhost:5000/live-courses')
+        fetch('https://api.ishaan.website/live-courses')
             .then(res => res.json())
             .then(data => {
                 setCourse(data.find(course => course.url_id == id))
@@ -116,7 +116,7 @@ const LiveCourseDetails = () => {
                         {course.short_description}
                     </p>
                     <h1 className="my-5 text-3xl font-bold text-main">{course.title}</h1>
-                    <video className="rounded-lg mx-auto my-5 w-11/12 md:w-7/12" controls  src={`http://localhost:5000${course.trailer}`}></video>
+                    <video className="rounded-lg mx-auto my-5 w-11/12 md:w-7/12" controls  src={`https://api.ishaan.website${course.trailer}`}></video>
                     <p className="text-xl text-red font-semibold">**ভর্তির লাস্ট ডেট {course.deadline}**</p>
                     <button
                         onClick={handleClickScroll}

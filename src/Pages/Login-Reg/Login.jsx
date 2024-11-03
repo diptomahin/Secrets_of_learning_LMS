@@ -57,7 +57,7 @@ const Login = () => {
                         Enrolled: [],
                         live_enroll:[],
                     };
-                    axiosPublic.post('http://localhost:5000/all-users', userInfo)
+                    axiosPublic.post('https://api.ishaan.website/all-users', userInfo)
                     .then(res => {
                         if (res.data.insertedId) {
                             console.log('user added to the database')

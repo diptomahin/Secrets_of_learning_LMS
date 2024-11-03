@@ -6,7 +6,7 @@ const Banner = () => {
     const id = '671fbcfe3f87c2fa1a20d8b5'
     const [banner, setBanner] = useState({});
     useEffect(()=>{
-        fetch(`http://localhost:5000/home-banner`)
+        fetch(`https://api.ishaan.website/home-banner`)
         .then(res => res.json())
         .then(data => {
             setBanner(data.find(banner => banner._id == id))
@@ -29,7 +29,7 @@ const Banner = () => {
                 className="rounded-lg w-full h-full" 
                 controls
                 controlsList="nodownload"
-                src={`http://localhost:5000${banner.video}`}>
+                src={`https://api.ishaan.website${banner.video}`}>
                 </video>
                 </div>
             </div>

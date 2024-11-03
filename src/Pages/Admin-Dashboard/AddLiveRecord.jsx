@@ -16,7 +16,7 @@ const AddLiveRecord = () => {
 
     // Fetch existing course records
     useEffect(() => {
-        fetch('http://localhost:5000/live-records')
+        fetch('https://api.ishaan.website/live-records')
             .then(res => res.json())
             .then(data => {
                 setRecordData(data.find(course => course.courseId === id));
@@ -26,7 +26,7 @@ const AddLiveRecord = () => {
 
     // Fetch course data
     useEffect(() => {
-        fetch('http://localhost:5000/live-courses')
+        fetch('https://api.ishaan.website/live-courses')
             .then(res => res.json())
             .then(data => {
                 setCourseData(data.find(course => course._id === id));
@@ -70,7 +70,7 @@ const AddLiveRecord = () => {
             // Delete videos for all classes in this module
             await Promise.all(moduleToRemove.classes.map(async (classItem) => {
                 if (classItem.video) {
-                    await axios.delete('http://localhost:5000/delete-video', {
+                    await axios.delete('https://api.ishaan.website/delete-video', {
                         data: { url: classItem.video }
                     });
                     toast.success(`Deleted video for class: ${classItem.name}`);
@@ -90,7 +90,7 @@ const AddLiveRecord = () => {
         const classToRemove = modules[moduleIndex].classes[classIndex];
         if (classToRemove && classToRemove.video) {
             // Delete the associated video
-            await axios.delete('http://localhost:5000/delete-video', {
+            await axios.delete('https://api.ishaan.website/delete-video', {
                 data: { url: classToRemove.video }
             });
             toast.success(`Deleted video for class: ${classToRemove.name}`);
@@ -118,7 +118,7 @@ const AddLiveRecord = () => {
         };
 
         try {
-            const response = await axios.put(`http://localhost:5000/live-records/${recordData._id}`, courseRecord, {
+            const response = await axios.put(`https://api.ishaan.website/live-records/${recordData._id}`, courseRecord, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -162,14 +162,14 @@ const AddLiveRecord = () => {
         try {
             // Delete the existing video if it exists
             if (existingVideoUrl) {
-                await axios.delete('http://localhost:5000/delete-video', {
+                await axios.delete('https://api.ishaan.website/delete-video', {
                     data: { url: existingVideoUrl }
                 });
                 toast.success('Old video replaced');
             }
 
             // Upload the new video with progress tracking
-            const response = await axios.post('http://localhost:5000/upload-video', formData, {
+            const response = await axios.post('https://api.ishaan.website/upload-video', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
                 onUploadProgress: (progressEvent) => {
                     const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -218,7 +218,7 @@ const AddLiveRecord = () => {
         };
 
         try {
-            const response = await axios.put(`http://localhost:5000/live-records/${recordData._id}`, courseRecord, {
+            const response = await axios.put(`https://api.ishaan.website/live-records/${recordData._id}`, courseRecord, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -315,7 +315,7 @@ const AddLiveRecord = () => {
                                                     controls
                                                     
                                                     className='w-1/2'
-                                                    src={`http://localhost:5000${classItem.video}`}></video>
+                                                    src={`https://api.ishaan.website${classItem.video}`}></video>
                                             </div>
                                         )}
                                         <button

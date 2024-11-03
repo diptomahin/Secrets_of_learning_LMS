@@ -37,7 +37,7 @@ const LiveCourses = () => {
                                     className=''
                                     controls
                                     controlsList="nodownload"
-                                    src={`http://localhost:5000${item.trailer}`}
+                                    src={`https://api.ishaan.website${item.trailer}`}
                                     type="video/mp4"
                                     alt="Album" />
                             </figure>

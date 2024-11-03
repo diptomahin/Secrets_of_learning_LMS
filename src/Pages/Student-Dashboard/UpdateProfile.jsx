@@ -60,7 +60,7 @@ const UpdateProfile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        axiosPublic.put(`http://localhost:5000/all-users/${userData._id}`, formData)
+        axiosPublic.put(`https://api.ishaan.website/all-users/${userData._id}`, formData)
         .then(res => {
             if (res.data.modifiedCount>0) {
                 console.log('user info updated to the database')

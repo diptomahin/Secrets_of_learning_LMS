@@ -26,7 +26,7 @@ const Watch_live = () => {
     const [video, setVideo] = useState('');
 
     useEffect(() => {
-        fetch(`http://localhost:5000/live-records`)
+        fetch(`https://api.ishaan.website/live-records`)
             .then(res => res.json())
             .then(data => {
                 const foundModule = data.find(course => course.courseId == id);
@@ -91,7 +91,7 @@ const Watch_live = () => {
                                     controls
                                     controlsList="nodownload"
                                     className="w-11/12 rounded-lg shadow-md"
-                                    src={`http://localhost:5000${video}`}
+                                    src={`https://api.ishaan.website${video}`}
                                     alt="Course Video"
                                 />
                                 <div className="bouncing-overlay " style={{ top: 30, left: 30 }}>

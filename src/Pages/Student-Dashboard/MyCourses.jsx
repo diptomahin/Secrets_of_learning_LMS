@@ -11,7 +11,7 @@ const MyCourses = () => {
 
   useEffect(() => {
     if (userData?.Enrolled && userData.Enrolled.length > 0) {
-      fetch('http://localhost:5000/all-courses')
+      fetch('https://api.ishaan.website/all-courses')
         .then(res => res.json())
         .then(data => {
           const filteredCourses = data.filter(course =>
