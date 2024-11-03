@@ -31,7 +31,7 @@ const UpdateLiveCourse = () => {
   });
   // // Fetch the course details using the ID
   // useEffect(() => {
-  //     axios.get(`https://api.ishaan.website/live-courses/${id}`)
+  //     axios.get(`http://localhost:5000/live-courses/${id}`)
   //         .then(res => setCourseData(res.data))
   //         .catch(error => console.error("Error fetching course details:", error));
   // }, [id]);
@@ -39,7 +39,7 @@ const UpdateLiveCourse = () => {
   // console.log(courseData)
 
   useEffect(() => {
-    fetch('https://api.ishaan.website/live-courses')
+    fetch('http://localhost:5000/live-courses')
       .then(res => res.json())
       .then(data => {
         setCourseData(data.find(course => course._id == id))
@@ -171,12 +171,12 @@ const UpdateLiveCourse = () => {
         setLoading(true);
         // Delete the existing video if it exists
         if (existingVideoUrl) {
-          await axios.delete('https://api.ishaan.website/delete-video', {
+          await axios.delete('http://localhost:5000/delete-video', {
               data: { url: existingVideoUrl }
           });
           toast.success('Old video replaced');
       }
-        const response = await axios.post('https://api.ishaan.website/upload-video', formData, {
+        const response = await axios.post('http://localhost:5000/upload-video', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -196,7 +196,7 @@ const UpdateLiveCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosPublic.put(`https://api.ishaan.website/live-courses/${id}`, courseData);
+      const response = await axiosPublic.put(`http://localhost:5000/live-courses/${id}`, courseData);
       if (response.data.result.modifiedCount > 0) {
         toast.success("Course updated successfully");
         navigate(`/course/${courseData.url_id}`); // Redirect after successful update

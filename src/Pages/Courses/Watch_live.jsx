@@ -12,6 +12,10 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 import UseLoggedUser from "../../Hooks/UseLoggedUser";
 
 const Watch_live = () => {
+    const disableRightClick = (e) => {
+        e.preventDefault();
+      };
+
     const { id, title } = useParams();
     const { userData } = UseLoggedUser();
     const { liveCourses } = UseLiveCourses();
@@ -22,7 +26,7 @@ const Watch_live = () => {
     const [video, setVideo] = useState('');
 
     useEffect(() => {
-        fetch(`https://api.ishaan.website/live-records`)
+        fetch(`http://localhost:5000/live-records`)
             .then(res => res.json())
             .then(data => {
                 const foundModule = data.find(course => course.courseId == id);
@@ -76,7 +80,7 @@ const Watch_live = () => {
                 `}
                 </style>
 
-                <div className="text-center">
+                <div className="text-center" onContextMenu={disableRightClick}>
                     <h1 className="text-2xl font-bold mb-4">{title}</h1>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-11/12 mx-auto">
                         {/* Video Player */}
@@ -87,7 +91,7 @@ const Watch_live = () => {
                                     controls
                                     controlsList="nodownload"
                                     className="w-11/12 rounded-lg shadow-md"
-                                    src={`https://api.ishaan.website${video}`}
+                                    src={`http://localhost:5000${video}`}
                                     alt="Course Video"
                                 />
                                 <div className="bouncing-overlay " style={{ top: 30, left: 30 }}>

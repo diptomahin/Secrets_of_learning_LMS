@@ -5,6 +5,10 @@ import { useEffect, useState } from 'react';
 
 
 const LiveCourses = () => {
+    const disableRightClick = (e) => {
+        e.preventDefault();
+      };
+
 
     const { liveCourses } = UseLiveCourses();
     const { userData } = UseLoggedUser();
@@ -23,7 +27,7 @@ const LiveCourses = () => {
     console.log(enrolledCourses)
 
     return (
-        <div className="py-20">
+        <div className="py-20" onContextMenu={disableRightClick}>
             <div className='grid grid-cols-1 lg:gird-cols-2 gap-5'>
                 {
                     enrolledCourses.map(item =>
@@ -33,7 +37,7 @@ const LiveCourses = () => {
                                     className=''
                                     controls
                                     controlsList="nodownload"
-                                    src={`https://api.ishaan.website${item.trailer}`}
+                                    src={`http://localhost:5000${item.trailer}`}
                                     type="video/mp4"
                                     alt="Album" />
                             </figure>

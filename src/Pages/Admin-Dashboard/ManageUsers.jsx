@@ -50,7 +50,7 @@ const ManageUsers = () => {
 
         const courseId = course._id;
         console.log(course, userId)
-        axios.put(`https://api.ishaan.website/all-users/${userId}/live_enroll`, { courseId })
+        axios.put(`http://localhost:5000/all-users/${userId}/live_enroll`, { courseId })
             .then(res => {
                 if (res.data.result.acknowledged == true) {
                     console.log('User enrolled in the course successfully');

@@ -2,11 +2,14 @@ import { Link } from 'react-router-dom';
 import UseLiveCourses from '../../Hooks/UseLivecourses';
 
 const ManageLiveCourses = () => {
+  const disableRightClick = (e) => {
+    e.preventDefault();
+  };
 
   const { liveCourses } = UseLiveCourses()
 
   return (
-    <div className='mt-10'>
+    <div className='mt-10' onContextMenu={disableRightClick}>
       <div className='grid grid-cols-1 lg:gird-cols-2 gap-5'>
         {
           liveCourses.map(item =>
@@ -16,7 +19,7 @@ const ManageLiveCourses = () => {
                   className=''
                   controls
                   controlsList="nodownload"
-                  src={`https://api.ishaan.website${item.trailer}`}
+                  src={`http://localhost:5000${item.trailer}`}
                   type="video/mp4"
                   alt="Album" />
               </figure>

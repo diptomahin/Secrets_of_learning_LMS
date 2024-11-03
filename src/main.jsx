@@ -10,14 +10,21 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // Create a QueryClient instance
 const queryClient = new QueryClient();
 
+// Function to prevent right-click context menu
+const disableRightClick = (e) => {
+  e.preventDefault();
+};
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthProvider>
-      {/* Wrap the app with QueryClientProvider */}
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </AuthProvider>
-    <Toaster position="top-center" reverseOrder={true} />
+    <div onContextMenu={disableRightClick}>
+      <AuthProvider>
+        {/* Wrap the app with QueryClientProvider */}
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </AuthProvider>
+      <Toaster position="top-center" reverseOrder={true} />
+    </div>
   </React.StrictMode>
 );
