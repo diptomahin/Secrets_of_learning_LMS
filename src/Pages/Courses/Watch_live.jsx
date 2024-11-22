@@ -14,7 +14,7 @@ import UseLoggedUser from "../../Hooks/UseLoggedUser";
 const Watch_live = () => {
     const disableRightClick = (e) => {
         e.preventDefault();
-      };
+    };
 
     const { id, title } = useParams();
     const { userData } = UseLoggedUser();
@@ -88,6 +88,7 @@ const Watch_live = () => {
                             <h1 className="text-2xl font-semibold mb-2">{videoTitle}</h1>
                             <div className="relative">
                                 <video
+                                    preload="auto"
                                     controls
                                     controlsList="nodownload"
                                     className="w-11/12 rounded-lg shadow-md"
