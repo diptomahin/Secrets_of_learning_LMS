@@ -9,7 +9,14 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import UseLoggedUser from "../../Hooks/UseLoggedUser";
 import useAxios from "../../Hooks/UseAxios";
 import toast from "react-hot-toast";
-
+import {
+    Accordion,
+    AccordionItem,
+    AccordionItemHeading,
+    AccordionItemButton,
+    AccordionItemPanel,
+} from 'react-accessible-accordion';
+import 'react-accessible-accordion/dist/fancy-example.css';
 
 const CourseDetails = () => {
 
@@ -31,7 +38,7 @@ const CourseDetails = () => {
     const [takaNow, setTakaNow] = useState(0);
 
     useEffect(() => {
-        fetch('https://api.ishaan.website/all-courses')
+        fetch('http://localhost:5000/all-courses')
             .then(res => res.json())
             .then(data => {
                 setCourse(data.find(course => course._id == id))
@@ -62,7 +69,7 @@ const CourseDetails = () => {
 
         const courseId = course._id;
 
-        axiosPublic.put(`https://api.ishaan.website/all-users/${userData._id}/enrolled`, { courseId })
+        axiosPublic.put(`http://localhost:5000/all-users/${userData._id}/enrolled`, { courseId })
             .then(res => {
                 if (res.data.result.acknowledged == true) {
                     console.log('User enrolled in the course successfully');
@@ -84,18 +91,21 @@ const CourseDetails = () => {
                     <div className="w-full lg:w-3/5 flex flex-col gap-5">
                         <h1 className="text-2xl font-bold text-main">{course.title}</h1>
                         <p className="text-lg text-main">A course by <span className="text-xl font-semibold">{course.trainer}</span></p>
-                        <video
-                            controls
-                            width="600" // Set the desired width
-                            src="https://res.cloudinary.com/dee3gsels/video/upload/v1726779555/rhv8inr7snotydlzm6o4.mp4"
-                            type="video/mp4"
-                        ></video>
-                            <p className="text-lg flex flex-col gap-2 text-main"><span className="text-xl font-semibold">Description:</span>{course.description}</p>
-                            <div className="flex border-main bg-base-200 p-7 text-2xl my-5 font-semibold rounded-lg justify-around w-3/5 lg:w-1/2 mx-auto">
-                                <p className="flex items-center gap-2"><PiStudentBold /> {course.students}</p>
-                                <p className="flex items-center gap-2"><MdOutlineRateReview /> {course.reviews}</p>
-                                <p className="flex items-center gap-2"><AiOutlineLike /> {course.positive_ratings}</p>
-                            </div>
+                        <figure>
+                            <video
+                                className=''
+                                controls
+                                controlsList="nodownload"
+                                src={`http://localhost:5000${course.trailer}`}
+                                type="video/mp4"
+                                alt="Album" />
+                        </figure>
+                        <p className="text-lg flex flex-col gap-2 text-main"><span className="text-xl font-semibold">Description:</span>{course.description}</p>
+                        <div className="flex border-main bg-base-200 p-7 text-2xl my-5 font-semibold rounded-lg justify-around w-3/5 lg:w-1/2 mx-auto">
+                            <p className="flex items-center gap-2"><PiStudentBold /> {course.students}</p>
+                            <p className="flex items-center gap-2"><MdOutlineRateReview /> {course.reviews}</p>
+                            <p className="flex items-center gap-2"><AiOutlineLike /> {course.positive_ratings}</p>
+                        </div>
                     </div>
                     <div className=" w-full lg:w-2/5">
                         <div className="card bg-main text-white mt-24">
@@ -118,18 +128,33 @@ const CourseDetails = () => {
                         </div>
                     </div>
                 </div>
-                <div className="overflow-x-auto w-full lg:w-3/5 mt-7">
-                    <table className="table">
-                        <h1 className="text-xl font-semibold mb-2">What You Will Learn :</h1>
-                        <hr className="mb-3" />
-                        <tbody>
-                            {/* row 1 */}
-                            {course.whatYoullLearn.map(topic =>
-                                <tr key={topic} className="bg-base-200">
-                                    <td className="border-main border-2 text-lg flex gap-5 items-center my-1"><GoFileSubmodule /> {topic}</td>
-                                </tr>)}
-                        </tbody>
-                    </table>
+                <div className="text-center py-10 my-10 card card-compact bg-base-100  shadow-xl w-11/12 mx-auto">
+                    <h1 className="text-2xl font-bold mb-5">কোর্স <span className="">মডিউল</span> !!</h1>
+                    <div className="w-11/12 mx-auto">
+                        <Accordion allowZeroExpanded>
+                            {course.whatYoullLearn.map((item) => (
+                                <AccordionItem key={item.topic}>
+                                    <AccordionItemHeading>
+                                        <AccordionItemButton>
+                                            {item.topic}
+                                        </AccordionItemButton>
+                                    </AccordionItemHeading>
+                                    <AccordionItemPanel>
+                                        <table className="table-auto w-full border-collapse border border-main mb-4 text-start">
+                                            <tbody>
+                                                {item.description.split('\n').map((classItem, idx) => (
+                                                    <tr key={idx}>
+                                                        <td className="border border-main p-2">{classItem}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </AccordionItemPanel>
+                                </AccordionItem>
+                            ))}
+                        </Accordion>
+                    </div>
+
                 </div>
             </div>
         );

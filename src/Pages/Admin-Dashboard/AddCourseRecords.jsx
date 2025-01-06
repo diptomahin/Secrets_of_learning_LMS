@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const AddLiveRecord = () => {
+const AddCourseRecords = () => {
+
     const { id } = useParams(); // Get course id from URL
     const [modules, setModules] = useState([]); // Local state to manage modules
     const [videoFiles, setVideoFiles] = useState([]); // Array to store video files for each class
@@ -16,7 +17,7 @@ const AddLiveRecord = () => {
 
     // Fetch existing course records
     useEffect(() => {
-        fetch('http://localhost:5000/live-records')
+        fetch('http://localhost:5000/class-records')
             .then(res => res.json())
             .then(data => {
                 setRecordData(data.find(course => course.courseId === id));
@@ -26,7 +27,7 @@ const AddLiveRecord = () => {
 
     // Fetch course data
     useEffect(() => {
-        fetch('http://localhost:5000/live-courses')
+        fetch('http://localhost:5000/all-courses')
             .then(res => res.json())
             .then(data => {
                 setCourseData(data.find(course => course._id === id));
@@ -118,7 +119,7 @@ const AddLiveRecord = () => {
         };
 
         try {
-            const response = await axios.put(`http://localhost:5000/live-records/${recordData._id}`, courseRecord, {
+            const response = await axios.put(`http://localhost:5000/class-records/${recordData._id}`, courseRecord, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -218,7 +219,7 @@ const AddLiveRecord = () => {
         };
 
         try {
-            const response = await axios.put(`http://localhost:5000/live-records/${recordData._id}`, courseRecord, {
+            const response = await axios.put(`http://localhost:5000/class-records/${recordData._id}`, courseRecord, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -235,11 +236,10 @@ const AddLiveRecord = () => {
         }
     };
 
-
     if (recordData.courseId) {
         return (
             <div className="max-w-2xl mx-auto mt-10 p-5 bg-white rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Add Live Record for Course: {courseData.title}</h2>
+                <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Add Video for Course: {courseData.title}</h2>
 
                 {/* Upload Progress Modal */}
                 {showModal && (
@@ -355,4 +355,4 @@ const AddLiveRecord = () => {
     }
 };
 
-export default AddLiveRecord;
+export default AddCourseRecords;

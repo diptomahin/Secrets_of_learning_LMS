@@ -24,11 +24,11 @@ const LiveCourses = () => {
         }
     }, [userData, liveCourses]);
 
-    console.log(enrolledCourses)
+    // console.log(enrolledCourses)
 
     return (
         <div className="py-20" onContextMenu={disableRightClick}>
-            <div className='grid grid-cols-1 lg:gird-cols-2 gap-5'>
+            <div className='grid grid-cols-1 gap-5'>
                 {
                     enrolledCourses.map(item =>
                         <div key={item._id} className="card grid grid-cols-1 lg:grid-cols-2  bg-base-100 shadow-xl">
@@ -37,7 +37,7 @@ const LiveCourses = () => {
                                     className=''
                                     controls
                                     controlsList="nodownload"
-                                    src={`https://api.ishaan.website${item.trailer}`}
+                                    src={`http://localhost:5000${item.trailer}`}
                                     type="video/mp4"
                                     alt="Album" />
                             </figure>

@@ -11,7 +11,8 @@ import {
 import 'react-accessible-accordion/dist/fancy-example.css';
 import UseLoggedUser from "../../Hooks/UseLoggedUser";
 
-const Watch_live = () => {
+const Watch_course = () => {
+
     const disableRightClick = (e) => {
         e.preventDefault();
     };
@@ -26,7 +27,7 @@ const Watch_live = () => {
     const [video, setVideo] = useState('');
 
     useEffect(() => {
-        fetch(`http://localhost:5000/live-records`)
+        fetch(`http://localhost:5000/class-records`)
             .then(res => res.json())
             .then(data => {
                 const foundModule = data.find(course => course.courseId == id);
@@ -52,6 +53,7 @@ const Watch_live = () => {
     useEffect(() => {
         console.log("Video has been updated:", video);
     }, [video]);
+
 
     if (isData) {
         return (
@@ -140,4 +142,4 @@ const Watch_live = () => {
     }
 };
 
-export default Watch_live;
+export default Watch_course;

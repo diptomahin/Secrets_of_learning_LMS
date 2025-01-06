@@ -14,7 +14,7 @@ const AddCourses = () => {
     trainer: '',
     description: '',
     short_description: '',
-    thumbnail:'',
+    trailer: '',
     offer: '',
     price: '',
     discount: '',
@@ -34,32 +34,7 @@ const AddCourses = () => {
     });
   };
 
-  const handleModuleChange = (e, index) => {
-    const { name, value } = e.target;
-    const updatedModules = [...courseData.modules];
-    updatedModules[index][name] = value;
-    setCourseData({ ...courseData, modules: updatedModules });
-  };
 
-  const handleAddModule = () => {
-    const newModule = {
-      id: courseData.modules.length + 1,
-      title: '',
-      video: ''
-    };
-    setCourseData({
-      ...courseData,
-      modules: [...courseData.modules, newModule],
-    });
-  };
-
-  const handleRemoveModule = (index) => {
-    const updatedModules = courseData.modules.filter((_, i) => i !== index);
-    setCourseData({
-      ...courseData,
-      modules: updatedModules,
-    });
-  };
 
   // For "What You'll Learn"
   const handleWhatYouLearnChange = (e, index) => {
@@ -83,50 +58,51 @@ const AddCourses = () => {
       whatYoullLearn: updatedLearn,
     });
   };
- 
-  // Cloudinary Video Upload for Modules using Axios
-  const handleVideoUpload = async (index, file) => {
+
+  // Video Upload for Trailer to Backend
+  const handleTrailerUpload = async (file) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'video_preset'); // Replace with your Cloudinary preset
 
     try {
       setLoading(true);
-      const cloudName = import.meta.env.VITE_cloudinaryCloudeName;
-      const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-      const videoUrl = res.data.secure_url;
-
-      // Update the module with the uploaded video URL
-      const updatedModules = [...courseData.modules];
-      updatedModules[index].video = videoUrl;
-      setCourseData({ ...courseData, modules: updatedModules });
-      toast.success('Video Uploaded')
-      setLoading(false)
+      const response = await axios.post('http://localhost:5000/upload-video', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      const { url } = response.data; // Assuming your backend returns the URL
+      setCourseData({ ...courseData, trailer: url });
+      toast.success('Trailer Uploaded Successfully');
+      setLoading(false);
     } catch (error) {
-      console.error('Error uploading video:', error);
+      console.error('Error uploading trailer:', error);
+      setLoading(false);
+      toast.error('Trailer upload failed');
     }
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Submitted Data: ', courseData);
     // Submit the courseData to your backend or API here
     axiosPublic.post('/all-courses', courseData)
-          .then(res => {
-            if (res.data.insertedId) {
-              console.log('Course added to the database')
-              toast.success('Course added to the database')
-              navigate('/admin-dashboard/manage-courses');
-            }
-          })
+      .then(res => {
+        if (res.data.insertedId) {
+          const classRecords = {
+            courseId: res.data.insertedId,
+            modules: [{ name: "", classes: [{ name: "", video: "" }] }]
+          }
+          axiosPublic.post('/class-records', classRecords)
+            .then(res => {
+              if (res.data.insertedId) {
+                toast.success('Course added successfully');
+                navigate('/admin-dashboard/manage-courses');
+              }
+            })
+        }
+      })
   };
   return (
     <div className='mt-10'>
@@ -178,14 +154,17 @@ const AddCourses = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium">Thumbnail URL</label>
+          <label className="block text-sm font-medium">Trailer</label>
           <input
-            type="text"
-            name="thumbnail"
-            value={courseData.thumbnail}
-            onChange={handleChange}
+            type="file"
+            accept="video/*"
+            onChange={(e) => handleTrailerUpload(e.target.files[0])}
             className="mt-1 block w-full p-2 border border-gray-300 rounded"
           />
+          {courseData.trailer && (
+            <p className="mt-2">Uploaded Trailer Video URL: {courseData.trailer}</p>
+          )}
+          {loading && <p>Uploading Trailer...</p>}
         </div>
 
         <div className="mb-4">
@@ -234,89 +213,43 @@ const AddCourses = () => {
           </select>
         </div>
 
-        <h3 className="text-xl font-bold mb-2 mt-6">What You will Learn</h3>
-
-        {courseData.whatYoullLearn.map((item, index) => (
-          <div key={index} className="mb-4">
-            <label className="block text-sm font-medium">Learning Item {index + 1}</label>
-            <input
-              type="text"
-              value={item}
-              onChange={(e) => handleWhatYouLearnChange(e, index)}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
-            />
-            <button
-              type="button"
-              onClick={() => handleRemoveWhatYouLearn(index)}
-              className="mt-2 px-4 py-2 bg-prime text-white font-semibold rounded"
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={handleAddWhatYouLearn}
-          className="mt-3 px-3 py-2 bg-prime text-white font-semibold rounded"
-        >
-          Add Learning Item
-        </button>
-
-
-
-        {/* Modules */}
-        <h3 className="text-xl font-bold mt-5 mb-2">Modules</h3>
-        {courseData.modules.map((module, index) => (
-          <div key={module.id} className="mb-4 border-t pt-4">
-            <h4 className="text-lg font-semibold mb-2">Module {module.id}</h4>
-
-            <div className="mb-2">
-              <label className="block text-sm font-medium">Title</label>
+        {/* Dynamic "What You'll Learn" Section */}
+        <div className='my-4 card card-compact bg-base-100 p-3 border-main border-x-2 border-y-2 shadow-xl'>
+          <h3 className="text-xl font-bold mb-2">What You'll Learn</h3>
+          {courseData.whatYoullLearn.map((item, index) => (
+            <div key={index} className="mb-4">
+              <label className="block text-sm font-medium">Learning Topic {index + 1}</label>
               <input
                 type="text"
-                name="title"
-                value={module.title}
-                onChange={(e) => handleModuleChange(e, index)}
-                className="mt-1 block w-full p-2 border border-main rounded"
+                value={item.topic}
+                onChange={(e) => handleWhatYouLearnChange(e, index, 'topic')}
+                className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                placeholder="Topic"
               />
-            </div>
-
-            <div className="mb-2">
-              <label className="block text-sm font-medium">Upload Video</label>
-              <input
-                type="file"
-                accept="video/*"
-                onChange={(e) => handleVideoUpload(index, e.target.files[0])}
-                className="mt-1 block w-full p-2 border border-main rounded"
+              <label className="block text-sm font-medium mt-2">Description</label>
+              <textarea
+                value={item.description}
+                onChange={(e) => handleWhatYouLearnChange(e, index, 'description')}
+                className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                placeholder="Description"
               />
-              {module.video && <p className="mt-2">Uploaded Video URL: {module.video}</p>}
-              {loading == true ? <div>
-                <span className="loading loading-spinner text-prime"></span>
-                <span className="loading loading-spinner text-prime"></span>
-                <span className="loading loading-spinner text-prime"></span>
-                <span className="loading loading-spinner text-prime"></span>
-                </div>:<div></div>}
+              <button
+                type="button"
+                onClick={() => handleRemoveWhatYouLearn(index)}
+                className="mt-2 px-4 py-2 bg-main text-white font-semibold rounded"
+              >
+                Remove
+              </button>
             </div>
-
-            <button
-              type="button"
-              onClick={() => handleRemoveModule(index)}
-              className="mt-2 px-4 py-2 bg-prime text-white font-semibold rounded"
-            >
-              Remove Module
-            </button>
-          </div>
-        ))}
-
-        <button
-          type="button"
-          onClick={handleAddModule}
-          className="mt-4 px-3 py-2 bg-prime text-white font-semibold rounded"
-        >
-          Add Module
-        </button>
-
-
+          ))}
+          <button
+            type="button"
+            onClick={handleAddWhatYouLearn}
+            className="mt-2 px-3 py-2 bg-prime text-white font-semibold rounded"
+          >
+            Add Learning Item
+          </button>
+        </div>
         <div>
 
           {/* Submit Button */}

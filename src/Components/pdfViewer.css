@@ -1,0 +1,6 @@
+/* src/styles/styles.css */
+
+/* Hide the toolbar and menu options */
+.rpv-default-layout__toolbar {
+  display: none !important;
+}

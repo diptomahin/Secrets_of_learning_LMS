@@ -48,6 +48,17 @@ const Navbar = () => {
             };
           }} to="/courses"
           ><span className="hover:text-prime">Courses</span></NavLink></li>
+          <li><NavLink className=" font-semibold text-xs lg:text-lg" style={({ isActive }) => {
+            return {
+              color: isActive ? "white" : "white",
+              backgroundColor: isActive ? "inherit" : "inherit",
+              textDecoration: isActive ? 'underline' : "none",
+              textUnderlineOffset: isActive ? '10px' : 'none',
+              textDecorationColor: isActive ? '#f02d00' : 'none',
+              textDecorationThickness: isActive ? '2px' : 'none',
+            };
+          }} to="/live-courses"
+          ><span className="hover:text-prime">Live Courses</span></NavLink></li>
           <li><NavLink className=" font-semibold text-sm lg:text-lg" style={({ isActive }) => {
             return {
               color: isActive ? "white" : "white",
@@ -89,6 +100,7 @@ const Navbar = () => {
         >
           <li className="hover:bg-prime hover:text-white hover:rounded-lg"><Link to='/'>Home</Link></li>
           <li className="hover:bg-prime hover:text-white hover:rounded-lg"><Link to='/courses'>Courses</Link></li>
+          <li className="hover:bg-prime hover:text-white hover:rounded-lg"><Link to='/live-courses'>Live courses</Link></li>
           <li className="hover:bg-prime hover:text-white hover:rounded-lg"><Link to='/about'>About</Link></li>
           <li className="hover:bg-prime hover:text-white hover:rounded-lg"><Link to='/contact'>Contact</Link></li>
         </ul>

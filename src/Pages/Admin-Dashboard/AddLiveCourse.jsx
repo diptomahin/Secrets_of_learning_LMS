@@ -151,7 +151,7 @@ const AddLiveCourses = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post('https://api.ishaan.website/upload-video', formData, {
+      const response = await axios.post('http://localhost:5000/upload-video', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

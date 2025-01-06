@@ -6,7 +6,7 @@ import { TiThMenu } from "react-icons/ti";
 const Student = () => {
 
     const { user, logOut } = useContext(AuthContext);
-    const [nav, setNav] = useState(true);
+    const [nav, setNav] = useState(false);
 
     const handleSignOut = () => {
         logOut()
@@ -52,7 +52,7 @@ const Student = () => {
                                     textDecorationColor: isActive ? '#f02d00' : 'none',
                                     textDecorationThickness: isActive ? '2px' : 'none',
                                 };
-                            }}>Pre-recorded Courses</NavLink></li>
+                            }}>Recorded <span className="">Courses</span></NavLink></li>
                             <li className="my-3"><NavLink to='/student-dashboard/live-courses' style={({ isActive }) => {
                                 return {
                                     color: isActive ? "white" : "white",
